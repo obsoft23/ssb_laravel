@@ -45,6 +45,7 @@ Route::post('/auth/register', [UserController::class, 'register']);
 Route::get('/fetch-user-image/{imageURL}', [UserController::class, 'user_profile_picture']);
 Route::get('/fetch-business-acc-image/{imageURL}', [BusinessAccountController::class, 'business_profile_pictures']);
 Route::get('/business-photos/fetch/{id}', [BusinessAccountController::class, 'fetchBusinessPhotos']);
+Route::get('/business-profile/fetch/{id}', [BusinessAccountController::class, 'show']);
 /*Route::get('/posts', [PostsAPiController::class, 'index']);
 
 Route::post('/posts', [PostsAPiController::class, 'store']);

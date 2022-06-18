@@ -137,7 +137,11 @@ class BusinessAccountController extends Controller
      */
     public function show($id)
     {
-        //
+       //
+        $business_profile = BusinessAccount::where('business_account_id', '=', $id)->get();
+        $images = BusinessAccountImage::where('business_id', '=', $id)->get(["image_name", "image_order_index"]);
+
+        return response()->json(["profile" => $business_profile, "images" => $images]);
     }
 
     /**

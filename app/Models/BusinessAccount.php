@@ -33,8 +33,11 @@ class BusinessAccount extends Model
     */];
 
     protected $hidden = [
+        'business_account_id',
+        'user_id',
         'created_at',
         'updated_at',
+        'deleted_at'
     ];
 
     public function user()
