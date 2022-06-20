@@ -35,9 +35,13 @@ class BusinessAccount extends Model
     protected $hidden = [
         'business_account_id',
         'user_id',
-        'created_at',
         'updated_at',
         'deleted_at'
+    ];
+
+    protected $casts = [
+        'active_days' => 'array',
+        'created_at' => 'date: M Y',
     ];
 
     public function user()
