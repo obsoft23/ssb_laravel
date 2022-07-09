@@ -61,11 +61,7 @@ class BusinessAccountController extends Controller
         }
         //create account
             $user = auth()->user()->id;
-             function convert_time($x) {
             
-              return  date("H:i", strtotime($x));
-            }
-
         $find_user = User::find(auth()->user()->id);
         $zero = 0;
         if($find_user->has_professional_acc == $zero){
@@ -73,8 +69,8 @@ class BusinessAccountController extends Controller
                 "user_id" => $user,
                 "business_name" => $request->business_name,
                 "business_descripition"=> $request->business_descripition,
-                "opening_time"=> convert_time($request->opening_time),
-                "closing_time"=> convert_time($request->closing_time),
+                "opening_time"=> date("H:i", strtotime($request->opening_time)),
+                "closing_time"=> date("H:i", strtotime($request->closing_time)),
                 "email"=> auth()->user()->email,
                 "phone"=> $request->phone,
                 "business_category"=> $request->business_category,
@@ -87,7 +83,7 @@ class BusinessAccountController extends Controller
                 "country_nation"=> $request->country_nation,
                 "latitude"=> $request->latitude,
                 "longtitude"=> $request->longtitude,
-                "active_days"=> json_encode($request->active_days),
+                "active_days"=> $request->active_days,
         
             ];
             $business_user = BusinessAccount::create($data); 
@@ -314,5 +310,105 @@ class BusinessAccountController extends Controller
        
         
     }
+
+    public function active_days(Request $request){
+        $rules = [
+            "active_days"=> 'array|required',
+            'business_id'=> 'int|required'
+            ];
+
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if($validator->fails()) 
+        {
+            return response()->json($validator->errors(), 400);
+           // return $validator->errors();
+            exit();
+        }
+
+        $success = BusinessAccount::where('business_account_id', '=', $request->business_id)->update(array('active_days' => $request->active_days,));
+
+        return response()->json(["success" => $success]);
+
+    }
     
+
+    public function update_address(Request $request){
+        $rules = [
+            "business_id" => 'int|required',
+            "full_address"=> 'string',
+            "postal_code"=> 'string',
+            "city_or_town"=> 'required|string',
+            "county_locality"=> 'string',
+            "country_nation"=> 'required|string',
+            "latitude"=> 'required',
+            "longtitude"=> 'required',
+            ];
+
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if($validator->fails()) 
+        {
+            return response()->json($validator->errors(), 400);
+           // return $validator->errors();
+            exit();
+        }
+
+        $data = [
+            "full_address"=> $request->full_address,
+            "house_no"=> $request->house_no,
+            "postal_code"=> $request->postal_code,
+            "city_or_town"=> $request->city_or_town,
+            "county_locality"=> $request->county_locality,
+            "country_nation"=> $request->country_nation,
+            "latitude"=> $request->latitude,
+            "longtitude"=> $request->longtitude,
+        ];
+       
+        $success = BusinessAccount::where('business_account_id', '=', $request->business_id)->update($data);
+
+        return response()->json(["success" => $success]);
+    }
+
+    public function update_details(Request $request){
+
+      
+
+
+        $rules = [
+            "business_descripition"=> 'string',
+            "email"=> 'string',
+            "phone"=> 'required|string',
+            "business_category"=> 'required|string',
+            "business_sub_category"=> 'required|string',
+            "business_id" => 'required|int'
+            ];
+
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if($validator->fails()) 
+        {
+            return response()->json($validator->errors(), 400);
+           // return $validator->errors();
+            exit();
+        }
+
+        $data = [
+            "business_descripition"=> $request->business_descripition,
+            "opening_time"=> date("H:i", strtotime($request->opening_time)),
+            "closing_time"=> date("H:i", strtotime($request->closing_time)),
+            "phone"=> $request->phone,
+            "business_category"=> $request->business_category,
+            "business_sub_category"=> $request->business_sub_category,
+        ];
+        
+
+        $success = BusinessAccount::where('business_account_id', '=', $request->business_id)->update($data);
+
+        return response()->json(["success" => $success]);
+
+    }
 }
