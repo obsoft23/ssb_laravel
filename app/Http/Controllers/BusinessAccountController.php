@@ -39,7 +39,6 @@ class BusinessAccountController extends Controller
         "closing_time"=> 'required',
         "email"=> 'required|string',
         "phone"=> 'required|string',
-        "business_category"=> 'required|string',
         "business_sub_category"=> 'required|string',
         "full_address"=> 'required|string',
         "postal_code"=> 'required|string',
@@ -73,7 +72,6 @@ class BusinessAccountController extends Controller
                 "closing_time"=> date("H:i", strtotime($request->closing_time)),
                 "email"=> auth()->user()->email,
                 "phone"=> $request->phone,
-                "business_category"=> $request->business_category,
                 "business_sub_category"=> $request->business_sub_category,
                 "full_address"=> $request->full_address,
                 "house_no"=> $request->house_no,
@@ -381,7 +379,6 @@ class BusinessAccountController extends Controller
             "business_descripition"=> 'string',
             "email"=> 'string',
             "phone"=> 'required|string',
-            "business_category"=> 'required|string',
             "business_sub_category"=> 'required|string',
             "business_id" => 'required|int'
             ];

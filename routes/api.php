@@ -55,7 +55,7 @@ Route::get('/fetch-user-image/{imageURL}', [UserController::class, 'user_profile
 Route::get('/fetch-business-acc-image/{imageURL}', [BusinessAccountController::class, 'business_profile_pictures']);
 Route::get('/business-photos/fetch/{id}', [BusinessAccountController::class, 'fetchBusinessPhotos']);
 Route::get('/business-profile/fetch/{id}', [BusinessAccountController::class, 'show']);
-Route::post('/vocations/fetch', [VocationsController::class, 'getVocations']);
+Route::get('/vocations/fetch', [VocationsController::class, 'getVocations']);
 
 
 
