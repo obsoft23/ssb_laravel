@@ -34,7 +34,6 @@ class BusinessAccount extends Model
 
     protected $hidden = [
         'business_account_id',
-        'business_category',
         'user_id',
         'updated_at',
         'deleted_at'

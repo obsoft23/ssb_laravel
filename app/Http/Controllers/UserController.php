@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use App\Imports\UserImport;
+use Maatwebsite\Excel\Facades\Excel;
 
 
 class UserController extends Controller
@@ -233,6 +235,13 @@ class UserController extends Controller
     public function user_profile_picture($url){
         // return response()->json([ "image" => asset("public/profilepictures/". auth()->user()->image) ] );
         return response()->file(public_path("/storage/profilepictures/".$url));
+    }
+
+
+    public function upload_user(Request $request){
+       // set_time_limit(600);
+        $success = Excel::import(new UserImport, $request->file('users') );
+        return response()->json($success);
     }
 }
 //if($user && Hash::check($request->password, $user->password) 

@@ -50,7 +50,10 @@ Route::group(["middleware" => "auth:sanctum"], function(){
 });
 
 Route::post('/auth/login', [UserController::class, 'index']);
-Route::post('/auth/register', [UserController::class, 'register']);
+Route::post('/auth/login', [UserController::class, 'index']);
+Route::post('/vocations/find', [BusinessAccountController::class, 'getVocations']);
+
+
 Route::get('/fetch-user-image/{imageURL}', [UserController::class, 'user_profile_picture']);
 Route::get('/fetch-business-acc-image/{imageURL}', [BusinessAccountController::class, 'business_profile_pictures']);
 Route::get('/business-photos/fetch/{id}', [BusinessAccountController::class, 'fetchBusinessPhotos']);
@@ -61,6 +64,9 @@ Route::get('/vocations/fetch', [VocationsController::class, 'getVocations']);
 
 Route::post('/upload', [CategoryController::class, 'index']);
 Route::post('/import', [VocationsController::class, 'vocations']);
+Route::post('/import/users', [UserController::class, 'upload_user']);
+Route::post('/import/business_acc', [BusinessAccountController::class, 'upload_business_acc']);
+
 
 /*Route::get('/posts', [PostsAPiController::class, 'index']);
 

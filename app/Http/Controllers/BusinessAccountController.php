@@ -372,9 +372,6 @@ class BusinessAccountController extends Controller
 
     public function update_details(Request $request){
 
-      
-
-
         $rules = [
             "business_descripition"=> 'string',
             "email"=> 'string',
@@ -406,6 +403,40 @@ class BusinessAccountController extends Controller
         $success = BusinessAccount::where('business_account_id', '=', $request->business_id)->update($data);
 
         return response()->json(["success" => $success]);
+
+    }
+
+    public function getVocations(Request $request){
+
+        $rules = [
+       /*     "latitude"=> 'required|numeric',
+            "longtitude" => 'required|numeric',*/
+            "sub_category"=> 'required|string',
+            
+        ];
+
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if($validator->fails()) 
+        {
+            return response()->json($validator->errors(), 400);
+           // return $validator->errors();
+            exit();
+        }
+
+        $category = $request->sub_category;
+        $latitude = $request->latitude;
+        $longtitude = $request->longtitude;
+
+        $business_profiles = BusinessAccount::where('business_sub_category', '=', $category)->get();
+        if($business_profiles == null){
+            return response()->json(["message" => "no result found"]);
+           exit();
+        }
+
+        return response()->json(["profiles" => $business_profiles]);
+        exit();
 
     }
 }
