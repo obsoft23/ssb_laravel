@@ -46,6 +46,7 @@ Route::group(["middleware" => "auth:sanctum"], function(){
     Route::post('/business/update/active_days', [BusinessAccountController::class, 'active_days']);
     Route::post('/business/update/address', [BusinessAccountController::class, 'update_address']);
     Route::post('/business/update/details', [BusinessAccountController::class, 'update_details']);
+    Route::post('/business/update/hours', [BusinessAccountController::class, 'update_hours']);
 
 });
 

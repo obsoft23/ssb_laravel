@@ -1,14 +1,15 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Imports\BusinessAccountImport;
 use App\Models\BusinessAccount;
 use App\Models\BusinessAccountImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
 use Illuminate\Database\Eloquent\SoftDeletingTrait;
-
-
+use Maatwebsite\Excel\Facades\Excel;
 
 class BusinessAccountController extends Controller
 {
@@ -237,7 +238,7 @@ class BusinessAccountController extends Controller
         $hashname =  $request->file('image')->hashName(); 
         $name = time(). $hashname;
        
-        $images = BusinessAccountImage::where('business_id', '=', $request->business_id)->get(["business_id"]);
+        $images = BusinessAccountImage::where('business_id', '=', auth()->user()->business_id)->get(["business_id"]);
         $count = $images->count();
         
       // return response()->json($images);
@@ -250,7 +251,7 @@ class BusinessAccountController extends Controller
             //  $images = $request->index;
               $user = auth()->user()->business_id;
               if($user == $request->business_id){
-                $success = BusinessAccountImage::where('business_id', '=', $request->business_id)->where( "image_order_index", '=', $request->index)->update(array('image_name' => $name));
+                $success = BusinessAccountImage::where('business_id', '=', auth()->user()->business_id)->where( "image_order_index", '=', $request->index)->update(array('image_name' => $name));
                 if($success == 0) {
                  $success =    BusinessAccountImage::create(
  
@@ -325,7 +326,7 @@ class BusinessAccountController extends Controller
             exit();
         }
 
-        $success = BusinessAccount::where('business_account_id', '=', $request->business_id)->update(array('active_days' => $request->active_days,));
+        $success = BusinessAccount::where('business_account_id', '=', auth()->user()->business_id)->update(array('active_days' => $request->active_days,));
 
         return response()->json(["success" => $success]);
 
@@ -365,7 +366,7 @@ class BusinessAccountController extends Controller
             "longtitude"=> $request->longtitude,
         ];
        
-        $success = BusinessAccount::where('business_account_id', '=', $request->business_id)->update($data);
+        $success = BusinessAccount::where('business_account_id', '=', auth()->user()->business_id)->update($data);
 
         return response()->json(["success" => $success]);
     }
@@ -392,19 +393,19 @@ class BusinessAccountController extends Controller
 
         $data = [
             "business_descripition"=> $request->business_descripition,
-            "opening_time"=> date("H:i", strtotime($request->opening_time)),
-            "closing_time"=> date("H:i", strtotime($request->closing_time)),
             "phone"=> $request->phone,
             "business_category"=> $request->business_category,
             "business_sub_category"=> $request->business_sub_category,
         ];
         
 
-        $success = BusinessAccount::where('business_account_id', '=', $request->business_id)->update($data);
+        $success = BusinessAccount::where('business_account_id', '=', auth()->user()->business_id)->update($data);
 
         return response()->json(["success" => $success]);
 
     }
+
+    
 
     public function getVocations(Request $request){
 
@@ -437,6 +438,43 @@ class BusinessAccountController extends Controller
 
         return response()->json(["profiles" => $business_profiles]);
         exit();
+
+    }
+
+
+    public function upload_business_acc(Request $request){
+          // set_time_limit(600);
+          $success = Excel::import(new BusinessAccountImport, $request->file('business') );
+          return response()->json($success);
+    }
+
+    public function update_hours(Request $request){
+      //  return response()->json(auth()->user()->business_id);
+        $rules = [
+            "opening_time"=> 'required',
+            "closing_time"=> 'required',
+            "business_id" => 'required|int'
+        ];
+
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if($validator->fails()) 
+        {
+            return response()->json($validator->errors(), 400);
+           // return $validator->errors();
+            exit();
+        }
+
+        $data = [
+            "opening_time"=> date("H:i", strtotime($request->opening_time)),
+            "closing_time"=> date("H:i", strtotime($request->closing_time)),      
+        ];
+      //  return response()->json($data);
+
+        $success = BusinessAccount::where('business_account_id', '=', auth()->user()->business_id)->update($data);
+
+        return response()->json(["success" => $success]);
 
     }
 }
