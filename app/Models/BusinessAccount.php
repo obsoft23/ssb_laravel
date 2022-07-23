@@ -33,7 +33,8 @@ class BusinessAccount extends Model
     */];
 
     protected $hidden = [
-        'business_account_id',
+        
+        'vocation_id',
         'user_id',
         'updated_at',
         'deleted_at'

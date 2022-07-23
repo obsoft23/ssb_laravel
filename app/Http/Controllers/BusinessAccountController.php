@@ -252,6 +252,8 @@ class BusinessAccountController extends Controller
               $user = auth()->user()->business_id;
               if($user == $request->business_id){
                 $success = BusinessAccountImage::where('business_id', '=', auth()->user()->business_id)->where( "image_order_index", '=', $request->index)->update(array('image_name' => $name));
+               
+
                 if($success == 0) {
                  $success =    BusinessAccountImage::create(
  
@@ -262,12 +264,22 @@ class BusinessAccountController extends Controller
                  
                      ],
                  );
+
+                        if($request->index == 1){
+                            $update_acc_image_name = BusinessAccount::where('business_account_id', '=', auth()->user()->business_id)->update(["acc_main_image" => $name]);
+                        }
+                 
+                
                 }
 
+                if($request->index == 1){
+                $update_acc_image_name = BusinessAccount::where('business_account_id', '=', auth()->user()->business_id)->update(["acc_main_image" => $name]);
+               }
+
                 $file->storeAs('public/business_images/', $name,   ['disk' => 'local'] );
-                return response()->json( ["sucessfully_updated"  => $success ] );
+                return response()->json( ["sucessfully_updated"  => $success, 'acc_image' => $update_acc_image_name ] );
                 exit();  
-              } else {
+              }/* else {
                // return response()->json("Fef");
 
                $success = BusinessAccountImage::where('business_id', '=', $request->business_id)->where( "image_order_index", '=', $request->index)->update(array('image_name' => $name));
@@ -286,7 +298,7 @@ class BusinessAccountController extends Controller
                 return response()->json( ["sucessfully_updated"  => $success ] );
                 exit();
                
-              }
+              }*/
              // return response()->json($images);
                  
            } else {
@@ -299,9 +311,12 @@ class BusinessAccountController extends Controller
             
                 ],
             );
+            if($request->index == 1){
+                $update_acc_image_name = BusinessAccount::where('business_account_id', '=', auth()->user()->business_id)->update(["acc_main_image" => $name]);
+              }
 
             $file->storeAs('public/business_images/', $name,   ['disk' => 'local'] );
-            return response()->json( ["sucessfully_updated"  => $success ] );
+            return response()->json( ["sucessfully_updated"  => $success , "acc_updated" => $update_acc_image_name] );
             exit();   
            }
            
@@ -427,17 +442,23 @@ class BusinessAccountController extends Controller
         }
 
         $category = $request->sub_category;
-        $latitude = $request->latitude;
-        $longtitude = $request->longtitude;
-
+        
         $business_profiles = BusinessAccount::where('business_sub_category', '=', $category)->get();
+        
+       
         if($business_profiles == null){
             return response()->json(["message" => "no result found"]);
            exit();
         }
 
-        return response()->json(["profiles" => $business_profiles]);
+        return response()->json($business_profiles);
         exit();
+    /*foreach($business_profiles as $business){
+           
+            $image = BusinessAccountImage::where('business_id', '=', $business->business_account_id )->get(["image_name", "image_order_index"])->orderBy('image_order_index', 'asc');
+          
+            return $image;
+        } */
 
     }
 
