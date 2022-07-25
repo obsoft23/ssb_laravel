@@ -446,19 +446,13 @@ class BusinessAccountController extends Controller
         $business_profiles = BusinessAccount::where('business_sub_category', '=', $category)->get();
         
        
-        if($business_profiles == null){
-            return response()->json(["message" => "no result found"]);
+        if($business_profiles->count() < 1){
+            return response()->json(["success" => 0]);
            exit();
         }
 
         return response()->json($business_profiles);
         exit();
-    /*foreach($business_profiles as $business){
-           
-            $image = BusinessAccountImage::where('business_id', '=', $business->business_account_id )->get(["image_name", "image_order_index"])->orderBy('image_order_index', 'asc');
-          
-            return $image;
-        } */
 
     }
 
