@@ -6,6 +6,10 @@ use App\Http\Controllers\PostsAPiController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\VocationsController;
+use App\Http\Controllers\RatingController;
+use App\Http\Controllers\LikesController;
+use App\Http\Controllers\ReviewController;
+
 
 use App\Http\Controllers\BusinessAccountController;
 
@@ -48,6 +52,15 @@ Route::group(["middleware" => "auth:sanctum"], function(){
     Route::post('/business/update/details', [BusinessAccountController::class, 'update_details']);
     Route::post('/business/update/hours', [BusinessAccountController::class, 'update_hours']);
 
+
+    /*rate */
+    Route::post('/business/update/rating', [RatingController::class, 'rate']);
+    /*likes */
+    Route::post('/business/update/like', [LikesController::class, 'create']);
+    Route::post('/business/confirm/like', [LikesController::class, 'show']);
+
+    /*review */
+    Route::post('/business/confirm/review', [ReviewController::class, 'create']);
 });
 
 Route::post('/auth/login', [UserController::class, 'index']);

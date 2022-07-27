@@ -8,6 +8,7 @@ use App\Models\BusinessAccountImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
+use App\Models\Vocations;
 use Illuminate\Database\Eloquent\SoftDeletingTrait;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -34,7 +35,7 @@ class BusinessAccountController extends Controller
          //validate  "house_no"=> 'required|string',
          $rules = [
 
-        "business_name" => 'required|string',
+        "business_name" => 'required|string:max:35',
         "business_descripition"=> 'required|string',
         "opening_time"=> 'required',
         "closing_time"=> 'required',
@@ -390,7 +391,6 @@ class BusinessAccountController extends Controller
 
         $rules = [
             "business_descripition"=> 'string',
-            "email"=> 'string',
             "phone"=> 'required|string',
             "business_sub_category"=> 'required|string',
             "business_id" => 'required|int'
@@ -405,11 +405,12 @@ class BusinessAccountController extends Controller
            // return $validator->errors();
             exit();
         }
-
+        $vocation_id = Vocations::where('vocations', '=', $request->sub_category)->get(["id"]);
+        
         $data = [
             "business_descripition"=> $request->business_descripition,
             "phone"=> $request->phone,
-            "business_category"=> $request->business_category,
+            "vocation_id"=> $vocation_id,
             "business_sub_category"=> $request->business_sub_category,
         ];
         
@@ -425,8 +426,8 @@ class BusinessAccountController extends Controller
     public function getVocations(Request $request){
 
         $rules = [
-       /*     "latitude"=> 'required|numeric',
-            "longtitude" => 'required|numeric',*/
+            "country"=> 'required|string',
+            "town" => 'required|string',
             "sub_category"=> 'required|string',
             
         ];
@@ -443,8 +444,8 @@ class BusinessAccountController extends Controller
 
         $category = $request->sub_category;
         
+       // $business_profiles = BusinessAccount::where('business_sub_category', '=', $category)->where("city_or_town", '=', $request->town)->get();
         $business_profiles = BusinessAccount::where('business_sub_category', '=', $category)->get();
-        
        
         if($business_profiles->count() < 1){
             return response()->json(["success" => 0]);

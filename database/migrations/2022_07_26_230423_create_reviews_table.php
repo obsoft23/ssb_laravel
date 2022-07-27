@@ -13,12 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-      /*  Schema::create('posts', function (Blueprint $table) {
+        Schema::create('reviews', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->text('content');
+            $table->string("review");
+            $table->unsignedBigInteger('reviewer_id');
+            $table->foreign('reviewer_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
+            $table->unsignedBigInteger("business_account_id");
             $table->timestamps();
-        });*/
+        });
     }
 
     /**
@@ -28,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-       /* Schema::dropIfExists('posts');*/
+        Schema::dropIfExists('reviews');
     }
 };
