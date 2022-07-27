@@ -60,7 +60,9 @@ Route::group(["middleware" => "auth:sanctum"], function(){
     Route::post('/business/confirm/like', [LikesController::class, 'show']);
 
     /*review */
+   
     Route::post('/business/confirm/review', [ReviewController::class, 'create']);
+    Route::post('/business/confirm/review/delete', [ReviewController::class, 'destroy']);
 });
 
 Route::post('/auth/login', [UserController::class, 'index']);
@@ -73,7 +75,7 @@ Route::get('/fetch-business-acc-image/{imageURL}', [BusinessAccountController::c
 Route::get('/business-photos/fetch/{id}', [BusinessAccountController::class, 'fetchBusinessPhotos']);
 Route::get('/business-profile/fetch/{id}', [BusinessAccountController::class, 'show']);
 Route::get('/vocations/fetch', [VocationsController::class, 'getVocations']);
-
+Route::get('/business/fetch/review/{id}', [ReviewController::class, 'show']);
 
 
 Route::post('/upload', [CategoryController::class, 'index']);

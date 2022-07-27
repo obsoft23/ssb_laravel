@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Review;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
+
 
 
 class ReviewController extends Controller
@@ -31,6 +33,7 @@ class ReviewController extends Controller
                 'business_id' => 'required|int',
                 'user_id' => 'required|int',
                 "review" => 'required|string',  
+                "rating" => 'required',
             ];
     
             $validator = Validator::make($request->all(), $rules);
@@ -43,14 +46,20 @@ class ReviewController extends Controller
            }
 
            $data = [
-            "business_id" => $request->business_id,
+            "business_account_id" => $request->business_id,
             "reviewer_id" => $request->user_id,
             "review" => $request->review,
+            "rating" => $request->rating,
            ];
            
            $success= Review::create($data);
+           if($success){
+            return response()->json(true);
+           } else{
+            return response()->json(false);
+           } 
 
-           return response()->json($success);
+         
     }
 
     /**
@@ -70,9 +79,28 @@ class ReviewController extends Controller
      * @param  \App\Models\Review  $review
      * @return \Illuminate\Http\Response
      */
-    public function show(Review $review)
+    public function show($id)
     {
         //
+      /*  $user =  DB::table('users')
+        ->select('users.id','users.name','users.image')
+        ->join('reviews','reviewer_id','=','users.id')
+        ->where(['business_account_id' => $id,])
+     
+        ->get();*/
+        $user =  DB::table('users')
+        ->select('users.id','users.name','users.image')
+        ->join('reviews','reviewer_id','=','users.id')
+        ->where(['business_account_id' => $id,])
+        
+     
+        ->get();
+
+       $success = Review::where('business_account_id', '=', $id)->get();
+
+       return response()->json(["reviews" => $success, "user" => $user]);
+
+
     }
 
     /**
@@ -104,8 +132,29 @@ class ReviewController extends Controller
      * @param  \App\Models\Review  $review
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Review $review)
+    public function destroy(Request $request)
     {
         //
+        $rules = [
+            'business_id' => 'required|int',
+            'user_id' => 'required|int',
+            'review_id' => 'required|int',
+            
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+       if($validator->fails()) 
+         {
+         return response()->json($validator->errors(), 400);
+       // return $validator->errors();
+        exit();
+       }
+     
+            $delete_review =  Review::where("id" , '=', $request->review_id)->where("reviewer_id", auth()->user()->id)->delete();
+        return response()->json(["delete_review" => $delete_review]);
+       
+
+       
     }
 }

@@ -15,7 +15,8 @@ return new class extends Migration
     {
         Schema::create('reviews', function (Blueprint $table) {
             $table->id();
-            $table->string("review");
+            $table->text("review");
+            $table->text("rating");
             $table->unsignedBigInteger('reviewer_id');
             $table->foreign('reviewer_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
             $table->unsignedBigInteger("business_account_id");
