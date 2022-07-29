@@ -56,4 +56,9 @@ class User extends Authenticatable
     {
         return $this->belongsTo('App\Models\BusinessAccount');
     }
+
+    public function favourite()
+    {
+        return $this->belongsTo('App\Models\Favourite');
+    }
 }

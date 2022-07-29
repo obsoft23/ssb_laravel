@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Favourite;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
+
+
 
 class FavouriteController extends Controller
 {
@@ -12,9 +16,18 @@ class FavouriteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($favourite)
     {
         //
+        $user =  DB::table('users')
+        ->select('users.id','users.name','users.image')
+        ->join('reviews','reviewer_id','=','users.id')
+        ->where(['business_account_id' => $favourite,])
+        ->get();
+
+       $success = Favourite::where('business_account_id', '=', $favourite)->get();
+
+       return response()->json(["reviews" => $success, "user" => $user]);
     }
 
     /**
@@ -22,9 +35,40 @@ class FavouriteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
         //
+        $rules = [
+            'business_id' => 'required|int',
+            'user_id' => 'required|int',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+        if($validator->fails()) 
+            {
+            return response()->json($validator->errors(), 400);
+        // return $validator->errors();
+            exit();
+        }
+
+        $data = [
+            "business_id" => $request->business_id,
+            "user_id" => $request->user_id,
+           ];
+           
+        $find =  Favourite::where("business_id" , '=', $request->business_id)->where("user_id", $request->user_id)->count();
+       //return response()->json($find);
+        if($find == 0){
+            // return response()->json("false");
+            $success = Favourite::create($data);
+            return response()->json( $success);
+           
+        } else{
+            $success= Favourite::where("business_id" , '=', $request->business_id)->where("user_id", $request->user_id)->delete();
+            return response()->json(false);
+        }
+          
+
     }
 
     /**
@@ -46,7 +90,18 @@ class FavouriteController extends Controller
      */
     public function show(Favourite $favourite)
     {
-        //
+
+       // $find =  Favourite::where("business_id" , '=', $request->business_id)->where("user_id", "=", auth()->user()->id,)->get();
+      $favourite =  DB::table('business_accounts')
+       ->select('*')
+       ->join('favourites','business_id','=','business_account_id')
+       ->where(['favourites.user_id' => auth()->user()->id,])
+       ->get();
+      
+      // $favourite->orderBy("created_at", "DESC");
+      // $find =  Favourite::where("user_id", "=", auth()->user()->id,)->get();
+        return response()->json($favourite);
+      
     }
 
     /**

@@ -10,4 +10,9 @@ class Favourite extends Model
     use HasFactory;
     protected $guarded = [];
 
+    protected $casts = [
+        'active_days' => 'array',
+        
+    ];
+
 }

@@ -9,28 +9,7 @@ class BusinessAccount extends Model
 {
     use HasFactory;
     protected $guarded = [];
-    protected $fillable = [
-       /* 'user_id',
-        'business_id',
-        "business_name",
-        "business_descripition",
-        "opening_time",
-        "closing_time",
-        "email",
-        "phone",
-        "business_category",
-        "business_sub_category",
-        "full_address",
-        "house_no",
-        "postal_code",
-        "city_or_town",
-        "county_locality",
-        "country_nation",
-        "latitude",
-        "longtitude",
-        "active_days",
-        
-    */];
+    
 
     protected $hidden = [
         
@@ -50,6 +29,11 @@ class BusinessAccount extends Model
     public function user()
     {
         return $this->belongsTo('App\Models\User');
+    }
+
+    public function favourite()
+    {
+        return $this->belongsTo('App\Models\Favourite');
     }
 
 

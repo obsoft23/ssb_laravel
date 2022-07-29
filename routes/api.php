@@ -9,6 +9,8 @@ use App\Http\Controllers\VocationsController;
 use App\Http\Controllers\RatingController;
 use App\Http\Controllers\LikesController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\FavouriteController;
+
 
 
 use App\Http\Controllers\BusinessAccountController;
@@ -55,6 +57,8 @@ Route::group(["middleware" => "auth:sanctum"], function(){
 
     /*rate */
     Route::post('/business/update/rating', [RatingController::class, 'rate']);
+
+
     /*likes */
     Route::post('/business/update/like', [LikesController::class, 'create']);
     Route::post('/business/confirm/like', [LikesController::class, 'show']);
@@ -63,6 +67,12 @@ Route::group(["middleware" => "auth:sanctum"], function(){
    
     Route::post('/business/confirm/review', [ReviewController::class, 'create']);
     Route::post('/business/confirm/review/delete', [ReviewController::class, 'destroy']);
+
+    /*saved favourites*/
+    Route::post('/business/confirm/favourite', [FavouriteController::class, 'create']);
+    Route::post('/business/fetch/favourite', [FavouriteController::class, 'show']);
+    Route::post('/business/confirm/favourite/delete', [FavouriteController::class, 'destroy']);
+    
 });
 
 Route::post('/auth/login', [UserController::class, 'index']);

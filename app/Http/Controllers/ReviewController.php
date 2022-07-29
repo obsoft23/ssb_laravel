@@ -92,8 +92,6 @@ class ReviewController extends Controller
         ->select('users.id','users.name','users.image')
         ->join('reviews','reviewer_id','=','users.id')
         ->where(['business_account_id' => $id,])
-        
-     
         ->get();
 
        $success = Review::where('business_account_id', '=', $id)->get();
