@@ -59,7 +59,7 @@ class FavouriteController extends Controller
         $find =  Favourite::where("business_id" , '=', $request->business_id)->where("user_id", $request->user_id)->count();
        //return response()->json($find);
         if($find == 0){
-            // return response()->json("false");
+            // return response()->json("false"); (["successfully_created_new fav" => true]
             $success = Favourite::create($data);
             return response()->json( $success);
            
@@ -97,10 +97,17 @@ class FavouriteController extends Controller
        ->join('favourites','business_id','=','business_account_id')
        ->where(['favourites.user_id' => auth()->user()->id,])
        ->get();
-      
+       
       // $favourite->orderBy("created_at", "DESC");
       // $find =  Favourite::where("user_id", "=", auth()->user()->id,)->get();
+      $count = $favourite->count();
+      if($count > 0){
         return response()->json($favourite);
+        exit;
+      } else {
+        return response()->json($count);
+      }
+       
       
     }
 

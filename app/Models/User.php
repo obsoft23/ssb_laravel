@@ -50,6 +50,7 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        "has_professional_acc" => 'integer'
     ];
 
     public function business_acc()

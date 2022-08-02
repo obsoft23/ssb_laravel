@@ -9,14 +9,9 @@ use App\Http\Controllers\VocationsController;
 use App\Http\Controllers\RatingController;
 use App\Http\Controllers\LikesController;
 use App\Http\Controllers\ReviewController;
-use App\Http\Controllers\FavouriteController;
-
-
-
+use App\Http\Controllers\FavouriteContrer;
 use App\Http\Controllers\BusinessAccountController;
-
-
-
+use App\Http\Controllers\CommonController;
 
 /*
 |--------------------------------------------------------------------------
@@ -76,7 +71,7 @@ Route::group(["middleware" => "auth:sanctum"], function(){
 });
 
 Route::post('/auth/login', [UserController::class, 'index']);
-Route::post('/auth/login', [UserController::class, 'index']);
+Route::post('/auth/register', [UserController::class, 'register']);
 Route::post('/vocations/find', [BusinessAccountController::class, 'getVocations']);
 
 
@@ -85,6 +80,8 @@ Route::get('/fetch-business-acc-image/{imageURL}', [BusinessAccountController::c
 Route::get('/business-photos/fetch/{id}', [BusinessAccountController::class, 'fetchBusinessPhotos']);
 Route::get('/business-profile/fetch/{id}', [BusinessAccountController::class, 'show']);
 Route::get('/vocations/fetch', [VocationsController::class, 'getVocations']);
+Route::get('/vocations/common', [CommonController::class, 'index']);
+
 Route::get('/business/fetch/review/{id}', [ReviewController::class, 'show']);
 
 

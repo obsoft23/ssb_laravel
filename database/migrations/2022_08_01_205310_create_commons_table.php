@@ -13,11 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('business_subcategories', function (Blueprint $table) {
+        Schema::create('commons', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('category_id');
-            $table->foreign('category_id')->references('id')->on('business_categories')->onUpdate('cascade')->onDelete('cascade');
-            $table->string('sub_category'); 
+            $table->unsignedBigInteger('vocation_id');
+            $table->foreign('vocation_id')->references('id')->on('vocations')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -29,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('business_subcategories');
+        Schema::dropIfExists('commons');
     }
 };

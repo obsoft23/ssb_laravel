@@ -180,20 +180,25 @@ class UserController extends Controller
             exit();
         }
         //create account
+
+        $check = User::where('email', $request->email)->count();
+        if($check == 0){
             $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password)
             ]);
-
-        
-    
     
             $token = $user->createToken("personal access token")->plainTextToken;
     
             $response = ['user' => $user, 'token' => $token, 'status' => 200];
     
             return response()->json($response);
+        } else {
+            $response = ['user' => "email already exits not authorized", 'status' => 500];
+            return response()->json($response);
+        }
+           
         
 
     }

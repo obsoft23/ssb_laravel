@@ -444,8 +444,8 @@ class BusinessAccountController extends Controller
 
         $category = $request->sub_category;
         
-       // $business_profiles = BusinessAccount::where('business_sub_category', '=', $category)->where("city_or_town", '=', $request->town)->get();
-        $business_profiles = BusinessAccount::where('business_sub_category', '=', $category)->get();
+        $business_profiles = BusinessAccount::where('business_sub_category', '=', $category)->where("city_or_town", '=', $request->town)->get();
+       // $business_profiles = BusinessAccount::where('business_sub_category', '=', $category)->get();
        
         if($business_profiles->count() < 1){
             return response()->json(["success" => 0]);
