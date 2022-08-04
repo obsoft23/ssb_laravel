@@ -19,8 +19,15 @@ class VocationsController extends Controller
     }
 
     public function getVocations(Request $request){
-        $vocations = Vocations::all();
+        $vocations = Vocations::orderBy('created_at', 'DESC')->get();
         return response()->json($vocations);
         
     }
+
+    public function vocation_photo($url){
+        return response()->file(public_path("/storage/app_pictures/".$url));
+        exit();
+    }
+
+   
 }

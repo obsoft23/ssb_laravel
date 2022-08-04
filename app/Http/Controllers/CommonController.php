@@ -18,7 +18,7 @@ class CommonController extends Controller
         //
         $data = DB::table('vocations')
         ->select('*')
-        ->join('commons','commons.vocation_id','=','vocations.id')
+      //  ->join('commons','commons.vocation_id','=','vocations.id')
        //->where(['commons.vocation_id' => "vocations.id",])
         ->get();
         return response()->json($data);

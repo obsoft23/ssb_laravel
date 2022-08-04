@@ -33,7 +33,7 @@ class ReviewController extends Controller
                 'business_id' => 'required|int',
                 'user_id' => 'required|int',
                 "review" => 'required|string',  
-                "rating" => 'required',
+                "rating" => 'required|int',
             ];
     
             $validator = Validator::make($request->all(), $rules);
@@ -155,4 +155,6 @@ class ReviewController extends Controller
 
        
     }
+
+    
 }

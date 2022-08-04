@@ -74,13 +74,13 @@ Route::post('/auth/login', [UserController::class, 'index']);
 Route::post('/auth/register', [UserController::class, 'register']);
 Route::post('/vocations/find', [BusinessAccountController::class, 'getVocations']);
 
-
+Route::get('/vocation/{imageURL}', [VocationsController::class, 'vocation_photo']);
 Route::get('/fetch-user-image/{imageURL}', [UserController::class, 'user_profile_picture']);
 Route::get('/fetch-business-acc-image/{imageURL}', [BusinessAccountController::class, 'business_profile_pictures']);
 Route::get('/business-photos/fetch/{id}', [BusinessAccountController::class, 'fetchBusinessPhotos']);
 Route::get('/business-profile/fetch/{id}', [BusinessAccountController::class, 'show']);
 Route::get('/vocations/fetch', [VocationsController::class, 'getVocations']);
-Route::get('/vocations/common', [CommonController::class, 'index']);
+//Route::get('/vocations/common', [CommonController::class, 'index']);
 
 Route::get('/business/fetch/review/{id}', [ReviewController::class, 'show']);
 
