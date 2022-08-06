@@ -9,7 +9,7 @@ use App\Http\Controllers\VocationsController;
 use App\Http\Controllers\RatingController;
 use App\Http\Controllers\LikesController;
 use App\Http\Controllers\ReviewController;
-use App\Http\Controllers\FavouriteContrer;
+use App\Http\Controllers\FavouriteController;
 use App\Http\Controllers\BusinessAccountController;
 use App\Http\Controllers\CommonController;
 
