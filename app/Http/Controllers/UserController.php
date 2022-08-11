@@ -166,7 +166,7 @@ class UserController extends Controller
 
         //validate
         $rules = [
-            'name' => 'required|string|min:5',
+            'name' => 'required|string',
             'email' => 'required|email|unique:users',
             'password' => 'required|min:4'
         ];
@@ -176,7 +176,6 @@ class UserController extends Controller
         if($validator->fails()) 
         {
             return response()->json($validator->errors(), 400);
-           // return $validator->errors();
             exit();
         }
         //create account

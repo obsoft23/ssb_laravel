@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('likes', function (Blueprint $table) {
             $table->id();
-            $table->string("name");
+            $table->string("name")->nullable();
             $table->unsignedBigInteger('business_id');
             $table->foreign('business_id')->references('business_account_id')->on('business_accounts')->onUpdate('cascade')->onDelete('cascade');
             $table->unsignedBigInteger('user_id');

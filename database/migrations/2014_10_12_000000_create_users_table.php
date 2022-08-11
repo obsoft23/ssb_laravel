@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('image')->nullable();
             $table->enum('has_professional_acc', ['0', '1'])->default('0');
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
+            $table->string('password')->unique();
             $table->timestamps();
         });
     }

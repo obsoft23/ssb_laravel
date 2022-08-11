@@ -67,12 +67,12 @@ Route::group(["middleware" => "auth:sanctum"], function(){
     Route::post('/business/confirm/favourite', [FavouriteController::class, 'create']);
     Route::post('/business/fetch/favourite', [FavouriteController::class, 'show']);
     Route::post('/business/confirm/favourite/delete', [FavouriteController::class, 'destroy']);
-    
+    Route::post('/vocations/find', [BusinessAccountController::class, 'getVocations']);
+
 });
 
 Route::post('/auth/login', [UserController::class, 'index']);
 Route::post('/auth/register', [UserController::class, 'register']);
-Route::post('/vocations/find', [BusinessAccountController::class, 'getVocations']);
 
 Route::get('/vocation/{imageURL}', [VocationsController::class, 'vocation_photo']);
 Route::get('/fetch-user-image/{imageURL}', [UserController::class, 'user_profile_picture']);
