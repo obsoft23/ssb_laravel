@@ -9,8 +9,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
 use App\Models\Vocations;
+use Illuminate\Database\Console\DbCommand;
 use Illuminate\Database\Eloquent\SoftDeletingTrait;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\DB;
+
 
 class BusinessAccountController extends Controller
 {
@@ -429,6 +432,8 @@ class BusinessAccountController extends Controller
             "country"=> 'required|string',
             "town" => 'required|string',
             "sub_category"=> 'required|string',
+            "latitude"  => 'required',
+            "longtitude" => 'required'
             
         ];
 
@@ -443,14 +448,8 @@ class BusinessAccountController extends Controller
         }
 
         $category = $request->sub_category;
-        
-        $business_profiles = BusinessAccount::where('business_sub_category', '=', $category)->where("city_or_town", '=', $request->town)->get();
-       // $business_profiles = BusinessAccount::where('business_sub_category', '=', $category)->get();
-       
-        if($business_profiles->count() < 1){
-            return response()->json(["success" => 0]);
-           exit();
-        }
+        $business_profiles = BusinessAccount::where('business_sub_category', '=', $request->sub_category)->where("city_or_town", '=', $request->town)->get();
+      
 
         return response()->json($business_profiles);
         exit();

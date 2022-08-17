@@ -64,9 +64,9 @@ Route::group(["middleware" => "auth:sanctum"], function(){
     Route::post('/business/confirm/review/delete', [ReviewController::class, 'destroy']);
 
     /*saved favourites*/
-    Route::post('/business/confirm/favourite', [FavouriteController::class, 'create']);
+    Route::post('/business/add/favourite', [FavouriteController::class, 'create']);
     Route::post('/business/fetch/favourite', [FavouriteController::class, 'show']);
-    Route::post('/business/confirm/favourite/delete', [FavouriteController::class, 'destroy']);
+    Route::post('/business/confirm/favourite/status', [FavouriteController::class, 'confirmFav']);
     Route::post('/vocations/find', [BusinessAccountController::class, 'getVocations']);
 
 });
