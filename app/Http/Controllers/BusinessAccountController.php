@@ -400,6 +400,7 @@ class BusinessAccountController extends Controller
             ];
 
 
+
         $validator = Validator::make($request->all(), $rules);
 
         if($validator->fails()) 
@@ -432,8 +433,8 @@ class BusinessAccountController extends Controller
             "country"=> 'required|string',
             "town" => 'required|string',
             "sub_category"=> 'required|string',
-            "latitude"  => 'required',
-            "longtitude" => 'required'
+            "lat"  => 'required',
+            "long" => 'required'
             
         ];
 
@@ -446,9 +447,20 @@ class BusinessAccountController extends Controller
            // return $validator->errors();
             exit();
         }
-
-        $category = $request->sub_category;
-        $business_profiles = BusinessAccount::where('business_sub_category', '=', $request->sub_category)->where("city_or_town", '=', $request->town)->get();
+        $business_profiles = BusinessAccount::select(['id', 'name'])
+        ->when($request->long and $request->lat, function ($query) use ($request) {
+            $query->addSelect(DB::raw("ST_Distance_Sphere(
+                    POINT('$request->long', '$request->lat'), POINT(longitude, latitude)
+                ) as distance"))
+                ->orderBy('distance');
+        })
+        ->when($request->shopName, function ($query, $shopName) {
+            $query->where('shops.name', 'like', "%{$shopName}%");
+        })
+        ->take(9)
+        ->get();
+      //  $category = $request->sub_category;
+       // $business_profiles = BusinessAccount::where('business_sub_category', '=', $request->sub_category)->where("city_or_town", '=', $request->town)->get();
       
 
         return response()->json($business_profiles);
