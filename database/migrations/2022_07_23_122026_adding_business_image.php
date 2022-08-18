@@ -31,8 +31,10 @@ return new class extends Migration
         //
         Schema::table('business_accounts', function (Blueprint $table) {
            
-            $table->string('acc_main_image')->after('active_days')->nullable();
-           $table->renameColumn('business_category', 'vocation_id')->nullable();
+            $table->dropColumn(array('acc_main_image'));
+            $table->dropColumn(array('business_category'));
+           
+           
          });
     }
 };

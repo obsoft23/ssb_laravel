@@ -28,7 +28,7 @@ return new class extends Migration
     {
         Schema::table('business_accounts', function (Blueprint $table) {
             //
-            $table->unsignedBigInteger('likes')->after('rating ')->nullable();
+            $table->dropColumn(array('likes'));
         });
     }
 };

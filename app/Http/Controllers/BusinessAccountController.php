@@ -447,23 +447,27 @@ class BusinessAccountController extends Controller
            // return $validator->errors();
             exit();
         }
-        $business_profiles = BusinessAccount::select(['id', 'name'])
+       
+
+        $business_profiles = BusinessAccount::select(['*'])
         ->when($request->long and $request->lat, function ($query) use ($request) {
             $query->addSelect(DB::raw("ST_Distance_Sphere(
-                    POINT('$request->long', '$request->lat'), POINT(longitude, latitude)
+                    POINT('$request->long', '$request->lat'), POINT(business_accounts.longtitude, business_accounts.latitude)
                 ) as distance"))
                 ->orderBy('distance');
         })
-        ->when($request->shopName, function ($query, $shopName) {
-            $query->where('shops.name', 'like', "%{$shopName}%");
-        })
-        ->take(9)
-        ->get();
+        ->where('business_sub_category', '=', $request->sub_category)->where("city_or_town", '=', $request->town)->get();
+      
       //  $category = $request->sub_category;
        // $business_profiles = BusinessAccount::where('business_sub_category', '=', $request->sub_category)->where("city_or_town", '=', $request->town)->get();
-      
-
-        return response()->json($business_profiles);
+            
+        if($business_profiles->count() > 0){
+            return response()->json($business_profiles);
+            exit();
+        } else{
+            return response()->json(false, 400);
+        }
+       
         exit();
 
     }
