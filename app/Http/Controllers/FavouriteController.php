@@ -58,10 +58,10 @@ class FavouriteController extends Controller
            ];
            
         $find = Favourite::where("business_id" , "=" ,$request->business_id)->where("user_id", $request->user_id)->first();
-      //  return response()->json($find->deleted_status);
+       //  return response()->json($find == null ? "nukk" : "not null");
        
-        if($find->count() == 0){
-            $success = Favourite::create($data);
+        if($find == null){
+            $success = Favourite::updateOrCreate($data);
             return response()->json($success);
            
         } else{
