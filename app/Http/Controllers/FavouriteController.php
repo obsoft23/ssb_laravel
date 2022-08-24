@@ -103,6 +103,7 @@ class FavouriteController extends Controller
        ->select('*')
        ->join('favourites','business_id','=','business_account_id')
        ->where(['favourites.user_id' => auth()->user()->id,])
+       ->where('deleted_status', '=', 0)
        ->get();
        
       // $favourite->orderBy("created_at", "DESC");
@@ -176,4 +177,23 @@ class FavouriteController extends Controller
 
            return response()->json($success);
     }
+
+    public function showChats(){ 
+        $favourite =  DB::table('business_accounts')
+        ->select('*')
+        ->join('favourites','business_id','=','business_account_id')
+        ->where(['favourites.user_id' => auth()->user()->id,])
+        ->get();
+
+        $count = $favourite->count();
+        if($count > 0){
+            return response()->json($favourite);
+            exit;
+        } else {
+            return response()->json($count);
+         }
+        
+
+
+        }
 }

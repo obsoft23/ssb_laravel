@@ -69,6 +69,10 @@ Route::group(["middleware" => "auth:sanctum"], function(){
     Route::post('/business/confirm/favourite/status', [FavouriteController::class, 'confirmFav']);
     Route::post('/vocations/find', [BusinessAccountController::class, 'getVocations']);
 
+
+    /*chats messaging */
+    Route::post('/business/fetch/chatlist', [FavouriteController::class, 'showChats']);
+
 });
 
 Route::post('/auth/login', [UserController::class, 'index']);
