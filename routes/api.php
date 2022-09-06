@@ -11,6 +11,9 @@ use App\Http\Controllers\LikesController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\FavouriteController;
 use App\Http\Controllers\BusinessAccountController;
+use App\Http\Controllers\ChatsController;
+use App\Http\Controllers\ConversationController;
+
 use App\Http\Controllers\CommonController;
 
 /*
@@ -70,8 +73,13 @@ Route::group(["middleware" => "auth:sanctum"], function(){
     Route::post('/vocations/find', [BusinessAccountController::class, 'getVocations']);
 
 
-    /*chats messaging */
-    Route::post('/business/fetch/chatlist', [FavouriteController::class, 'showChats']);
+    /* messaging */
+  
+    Route::post('/conversations/create', [ConversationController::class, 'create']);
+    Route::post('/conversations/list', [ConversationController::class, 'chat_list']);
+
+   
+  
 
 });
 
@@ -96,9 +104,9 @@ Route::post('/import/business_acc', [BusinessAccountController::class, 'upload_b
 
 
 /*Route::get('/posts', [PostsAPiController::class, 'index']);
-
+ // Route::post('/business/fetch/favs/list', [FavouriteController::class, 'showChats']);
 Route::post('/posts', [PostsAPiController::class, 'store']);
-
+ Route::post('/conversations/list', [ConversationController::class, 'show']);
 Route::put('/posts/{post}', [PostsAPiController::class, 'update']);
 Route::delete('/posts/{post}', [PostsAPiController::class, 'destroy']);*/
 
