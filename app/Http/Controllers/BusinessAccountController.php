@@ -38,8 +38,8 @@ class BusinessAccountController extends Controller
          //validate  "house_no"=> 'required|string',
          $rules = [
 
-        "business_name" => 'required|string:max:35',
-        "business_descripition"=> 'required|string',
+        "business_name" => 'required|string:max:10',
+        "business_descripition"=> 'required|string:max:35',
         "opening_time"=> 'required',
         "closing_time"=> 'required',
         "email"=> 'required|string',

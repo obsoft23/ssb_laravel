@@ -45,10 +45,9 @@ class ConversationController extends Controller
         $data = [
             "from_user_id"=>auth()->user()->id,
             "business_account_id"=>$request->business_id,
-            "user_id" => $request->user_id,
             "blocked" => 0,
         ];
-       if(auth()->user()->id != $request->user_id){
+      
             $success = Conversation::updateOrCreate($data);
             if($success){
                 return response()->json($success, 400);
@@ -56,10 +55,7 @@ class ConversationController extends Controller
                 return response()->json($success, 400);
                 exit();
             }
-       } else{
-        return response()->json("not allowed to chat self", 400);
-       }
-        
+      
     }
 
     /**
