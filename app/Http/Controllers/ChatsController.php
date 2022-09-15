@@ -47,9 +47,33 @@ class ChatsController extends Controller
      * @param  \App\Models\chats  $chats
      * @return \Illuminate\Http\Response
      */
-    public function show(chats $chats)
+    public function show(chats $chats, Request $request)
     {
         //
+        $rules = [
+            'from_user_id' => 'required|int',
+            'to_user_id' => 'required|int',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+        if($validator->fails()) 
+            {
+            return response()->json($validator->errors(), 400);
+        // return $validator->errors();->where("deleted_status", 0)
+            exit();
+        }
+
+        $find  = chats::where("to_user_id", $request->to_user_id)
+              ->orWhere('from_user_id', $request->from_user_id)->where("to_user_id" , '=', $request->from_user_id)->orWhere('from_user_id', $request->to_user_id)->get();
+
+            if($find->count() > 0){
+                return response()->json($find,200);
+                exit;
+            }else {
+                return response()->json($find,400);
+                exit;
+            }
+       
     }
 
     /**

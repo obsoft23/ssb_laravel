@@ -77,6 +77,8 @@ Route::group(["middleware" => "auth:sanctum"], function(){
   
     Route::post('/conversations/create', [ConversationController::class, 'create']);
     Route::post('/conversations/list', [ConversationController::class, 'chat_list']);
+    Route::post('/chats/messages/fetch', [ChatsController::class, 'show']);
+
 
    
   

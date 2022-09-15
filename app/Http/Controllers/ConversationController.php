@@ -6,6 +6,8 @@ use App\Models\Conversation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
+
 
 
 
@@ -46,11 +48,12 @@ class ConversationController extends Controller
             "from_user_id"=>auth()->user()->id,
             "business_account_id"=>$request->business_id,
             "blocked" => 0,
+            "holding_conversation_id" => Str::random(30),
         ];
       
-            $success = Conversation::updateOrCreate($data);
+            $success = Conversation::updateOrCreate([ 'business_account_id'   => $request->business_id], $data);
             if($success){
-                return response()->json($success, 400);
+                return response()->json($success, 200);
             } else{
                 return response()->json($success, 400);
                 exit();
@@ -120,6 +123,7 @@ class ConversationController extends Controller
         ->select('*')
         ->join('conversations','conversations.business_account_id','=','business_accounts.business_account_id')
         ->where(['conversations.from_user_id' => auth()->user()->id,])
+        ->orderBy("conversations.updated_at", "desc")
         ->get();
 
         return response()->json($list);
