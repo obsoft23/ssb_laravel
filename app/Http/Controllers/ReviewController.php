@@ -33,7 +33,7 @@ class ReviewController extends Controller
                 'business_id' => 'required|int',
                 'user_id' => 'required|int',
                 "review" => 'required|string',  
-                "rating" => 'required|int',
+                
             ];
     
             $validator = Validator::make($request->all(), $rules);
@@ -41,7 +41,7 @@ class ReviewController extends Controller
            if($validator->fails()) 
              {
              return response()->json($validator->errors(), 400);
-           // return $validator->errors();
+           // return $validator->errors(); "rating" => 'required|int',
             exit();
            }
 
@@ -54,9 +54,9 @@ class ReviewController extends Controller
            
            $success= Review::create($data);
            if($success){
-            return response()->json(true);
+            return response()->json(true,200);
            } else{
-            return response()->json(false);
+            return response()->json(false,400);
            } 
 
          

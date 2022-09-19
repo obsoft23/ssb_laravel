@@ -23,7 +23,7 @@ return new class extends Migration
             $table->text('business_descripition');
             $table->string('opening_time');
             $table->string('closing_time');
-            $table->string('business_category')->index()->nullable();
+            $table->string('vocation_id')->index()->nullable();
             $table->string('business_sub_category')->index();
             $table->string('full_address');
             $table->string('house_no')->nullable();

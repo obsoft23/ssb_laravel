@@ -456,16 +456,16 @@ class BusinessAccountController extends Controller
                 ) as distance"))
                 ->orderBy('distance');
         })
-        ->where('business_sub_category', '=', $request->sub_category)->where("city_or_town", '=', $request->town)->get();
+        ->where('business_sub_category', '=', $request->sub_category)->where("city_or_town", '=', $request->town)->get()->take(9);
       
       //  $category = $request->sub_category;
        // $business_profiles = BusinessAccount::where('business_sub_category', '=', $request->sub_category)->where("city_or_town", '=', $request->town)->get();
             
         if($business_profiles->count() > 0){
-            return response()->json($business_profiles);
+            return response()->json($business_profiles,200);
             exit();
         } else{
-            return response()->json(false, 400);
+            return response()->json($business_profiles, 400);
         }
        
         exit();

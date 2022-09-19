@@ -13,7 +13,7 @@ use App\Http\Controllers\FavouriteController;
 use App\Http\Controllers\BusinessAccountController;
 use App\Http\Controllers\ChatsController;
 use App\Http\Controllers\ConversationController;
-
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\CommonController;
 
 /*
@@ -78,7 +78,11 @@ Route::group(["middleware" => "auth:sanctum"], function(){
     Route::post('/conversations/create', [ConversationController::class, 'create']);
     Route::post('/conversations/list', [ConversationController::class, 'chat_list']);
     Route::post('/chats/messages/fetch', [ChatsController::class, 'show']);
+   
 
+    /*Notifications */
+    Route::post('/notifications/fetch/', [NotificationController::class, 'index']);
+    Route::post('/notifications/create/', [NotificationController::class, 'create']);
 
    
   

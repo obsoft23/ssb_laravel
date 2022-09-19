@@ -119,9 +119,9 @@ class ConversationController extends Controller
 
     public function chat_list(Request $request){
 
-        $list =  DB::table('business_accounts')
+        $list =  DB::table('conversations')
         ->select('*')
-        ->join('conversations','conversations.business_account_id','=','business_accounts.business_account_id')
+        ->join('business_accounts','conversations.business_account_id','=','business_accounts.business_account_id')
         ->where(['conversations.from_user_id' => auth()->user()->id,])
         ->orderBy("conversations.updated_at", "desc")
         ->get();

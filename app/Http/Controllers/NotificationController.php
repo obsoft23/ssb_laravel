@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Notification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
+
 
 class NotificationController extends Controller
 {
@@ -15,6 +18,17 @@ class NotificationController extends Controller
     public function index()
     {
         //
+
+        $list =  DB::table('notifications')
+        ->select('*')
+        ->join('business_accounts','notifications.business_account_id','=','business_accounts.business_account_id')
+        //->join('users','notifications.business_account_id','=','users.business_id')
+        ->where(['notifications.user_id' => auth()->user()->id,])
+        ->orderBy("notifications.updated_at", "desc")
+        ->get();
+
+
+        return response()->json($list);
     }
 
     /**
@@ -22,9 +36,25 @@ class NotificationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
         //
+
+
+        $rules = [
+            'business_id' => 'required|int',
+            'rating' => 'required|int',
+            'user_id' => ''
+            ];
+    
+            $validator = Validator::make($request->all(), $rules);
+    
+           if($validator->fails()) 
+             {
+             return response()->json($validator->errors(), 400);
+           // return $validator->errors();
+            exit();
+           }
     }
 
     /**

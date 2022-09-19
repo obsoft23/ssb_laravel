@@ -28,7 +28,9 @@ return new class extends Migration
     {
         //
         Schema::table('users', function (Blueprint $table) {
-            $table->foreign('business_id')->references('business_account_id')->on('business_accounts')->onUpdate('cascade')->onDelete('cascade');
+            $table->dropForeign('users_business_id_foreign');
+            $table->dropColumn('business_id')->nullable();
+
         });
     }
 };
