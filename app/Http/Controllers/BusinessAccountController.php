@@ -13,6 +13,8 @@ use Illuminate\Database\Console\DbCommand;
 use Illuminate\Database\Eloquent\SoftDeletingTrait;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\DB;
+use App\Models\Notification;
+
 
 
 class BusinessAccountController extends Controller
@@ -101,6 +103,8 @@ class BusinessAccountController extends Controller
                 $update_professional_status = 1;
                 $update_users_business_id_column = $find_user->update(["business_id" => $business_user->id]);
                 $response = [ 'business_user_id' => $business_user->id, "has_professional_acc" => $update_professional_status, "account_status"=> "Account succesffuly created", "update_users_business_id_column" => $update_users_business_id_column ];
+
+                $notification  = Notification::create();
 
                 return response()->json($response);
                 exit();
