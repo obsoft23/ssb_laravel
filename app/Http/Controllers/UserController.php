@@ -68,7 +68,7 @@ class UserController extends Controller
     {
         if ($request->hasFile('image')){  
            
-            }  
+        }  
         
     }
 
@@ -124,12 +124,12 @@ class UserController extends Controller
     public function update(Request $request)
     {
         $rules = [
-        'name' => 'required|String',
-        'email' => 'required|email',
-        'bio' => 'required|String',
-        'fullname' => 'String',
+        'name' => 'string',
+        'email' => 'email',
+        'bio' => 'required|string',
+        'fullname' => 'required|string',
         'phone' => 'required|numeric',
-        'id' => 'required|Int'
+        'id' => 'required|int'
         ];
 
         $validator = Validator::make($request->all(), $rules);
