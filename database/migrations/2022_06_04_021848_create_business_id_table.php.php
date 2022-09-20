@@ -18,6 +18,7 @@ return new class extends Migration
           //  $table->foreign('business_id')->references('business_account_id')->on('business_accounts')->onUpdate('cascade')->onDelete('cascade');
           
           $table->unsignedBigInteger('business_id')->after('has_professional_acc')->nullable();
+          $table->foreign('business_id')->references('business_account_id')->on('business_accounts')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 
@@ -32,7 +33,8 @@ return new class extends Migration
         Schema::table('users', function (Blueprint $table) {
             // $table->int('business_id');
            //  $table->foreign('business_id')->references('business_account_id')->on('business_accounts')->onUpdate('cascade')->onDelete('cascade');
-           $table->dropColumn(array('business_id'));
+           $table->dropForeign('users_business_id_foreign');
+           $table->dropColumn('business_id');
          });
     }
 };

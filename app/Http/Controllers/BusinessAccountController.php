@@ -104,9 +104,9 @@ class BusinessAccountController extends Controller
                 $update_users_business_id_column = $find_user->update(["business_id" => $business_user->id]);
                 $response = [ 'business_user_id' => $business_user->id, "has_professional_acc" => $update_professional_status, "account_status"=> "Account succesffuly created", "update_users_business_id_column" => $update_users_business_id_column ];
 
-                $notification  = Notification::create();
+               // $notification  = Notification::create();
 
-                return response()->json($response);
+                return response()->json($response, 200);
                 exit();
             } else{
 
@@ -455,12 +455,12 @@ class BusinessAccountController extends Controller
 
         $business_profiles = BusinessAccount::select(['*'])
         ->when($request->long and $request->lat, function ($query) use ($request) {
-            $query->addSelect(DB::raw("ST_Distance_Sphere(
-                    POINT('$request->long', '$request->lat'), POINT(business_accounts.longtitude, business_accounts.latitude)
-                ) as distance"))
+            $query->addSelect(DB::raw("ST_Distance_Sphere( POINT(business_accounts.longtitude, business_accounts.latitude),
+                    POINT('$request->long', '$request->lat') 
+                ) * .000621371192 as distance" ) )
                 ->orderBy('distance');
         })
-        ->where('business_sub_category', '=', $request->sub_category)->where("city_or_town", '=', $request->town)->get()->take(9);
+        ->where('business_sub_category', '=', $request->sub_category)->where("city_or_town", '=', $request->town)->get();
       
       //  $category = $request->sub_category;
        // $business_profiles = BusinessAccount::where('business_sub_category', '=', $request->sub_category)->where("city_or_town", '=', $request->town)->get();
