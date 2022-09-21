@@ -33,6 +33,8 @@ return new class extends Migration
             $table->string('country_nation');
             $table->string('latitude')->index();
             $table->string('longtitude')->index();
+            $table->string('acc_main_image')->nullable();
+            $table->unsignedBigInteger('likes')->nullable();
             $table->double('rating', 5, 2)->nullable()->index();
             $table->json('active_days')->nullable();
             $table->softDeletes($column = 'deleted_at', $precision = 0);

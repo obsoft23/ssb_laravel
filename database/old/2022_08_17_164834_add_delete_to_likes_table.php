@@ -13,11 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('commons', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('vocation_id');
-            $table->foreign('vocation_id')->references('id')->on('vocations')->onUpdate('cascade')->onDelete('cascade');
-            $table->timestamps();
+        Schema::table('likes', function (Blueprint $table) {
+            //
+    
+           
+
+
         });
     }
 
@@ -28,6 +29,12 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('commons');
+        Schema::table('likes', function (Blueprint $table) {
+            //
+           
+            $table->dropColumn(array('deleted_status'));
+
+
+        });
     }
 };

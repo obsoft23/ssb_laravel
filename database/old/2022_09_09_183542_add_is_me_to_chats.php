@@ -13,10 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        //
-         Schema::table('conversations', function (Blueprint $table) {
+        Schema::table('chats', function (Blueprint $table) {
             //
-            $table->string('most_recent_message')->nullable();
+           
+            
+             
         });
     }
 
@@ -27,10 +28,9 @@ return new class extends Migration
      */
     public function down()
     {
-        //
-        Schema::table('conversations', function (Blueprint $table) {
+        Schema::table('chats', function (Blueprint $table) {
             //
-            $table->dropColumn('most_recent_message')->nullable();
+            $table->dropColumn('IsMe')->nullable();
         });
     }
 };

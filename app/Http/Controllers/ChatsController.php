@@ -64,8 +64,11 @@ class ChatsController extends Controller
         }
 
         $find  = chats::where("to_user_id", $request->to_user_id)
-              ->orWhere('from_user_id', $request->from_user_id)->where("to_user_id" , '=', $request->from_user_id)->orWhere('from_user_id', $request->to_user_id)->get();
-
+              ->having('from_user_id',"=" ,$request->from_user_id)->Orwhere("to_user_id" , '=', $request->from_user_id)->having('from_user_id', "=" ,$request->to_user_id)->get();
+      
+      
+           // $find = chats::between([$request->from_user_id, $request->to_user_id]);
+    
             if($find->count() > 0){
                 return response()->json($find,200);
                 exit;

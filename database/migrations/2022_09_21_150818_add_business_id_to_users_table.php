@@ -13,12 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        //
-        Schema::table('chats', function (Blueprint $table) {
+        Schema::table('users', function (Blueprint $table) {
             //
-           
-            $table->string('read')->nullable();
-             
+            $table->unsignedBigInteger('business_id')->nullable();
+            $table->foreign('business_id')->references('business_account_id')->on('business_accounts')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 
@@ -29,10 +27,10 @@ return new class extends Migration
      */
     public function down()
     {
-        //
-        Schema::table('chats', function (Blueprint $table) {
+        Schema::table('users', function (Blueprint $table) {
             //
-            $table->dropColumn('read');
+            $table->dropForeign('users_business_id_foreign');
+            $table->dropColumn('business_id');
         });
     }
 };

@@ -13,12 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-      /*  Schema::create('posts', function (Blueprint $table) {
-            $table->id();
-            $table->string('title');
-            $table->text('content');
-            $table->timestamps();
-        });*/
+        //
+        Schema::table('vocations', function (Blueprint $table) {
+            
+        });
     }
 
     /**
@@ -28,6 +26,10 @@ return new class extends Migration
      */
     public function down()
     {
-       /* Schema::dropIfExists('posts');*/
+        //
+        Schema::table('vocations', function (Blueprint $table) {
+            $table->dropColumn(array('vocation_image'));
+
+         });
     }
 };

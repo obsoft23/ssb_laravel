@@ -14,9 +14,10 @@ return new class extends Migration
     public function up()
     {
         //
-        Schema::table('users', function (Blueprint $table) {
-        $table->foreign('business_id')->references('business_account_id')->on('business_accounts')->onUpdate('cascade')->onDelete('cascade');
-      });
+         Schema::table('conversations', function (Blueprint $table) {
+            //
+           
+        });
     }
 
     /**
@@ -27,10 +28,9 @@ return new class extends Migration
     public function down()
     {
         //
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropForeign('users_business_id_foreign');
-            $table->dropColumn('business_id')->nullable();
-
+        Schema::table('conversations', function (Blueprint $table) {
+            //
+            $table->dropColumn('most_recent_message')->nullable();
         });
     }
 };

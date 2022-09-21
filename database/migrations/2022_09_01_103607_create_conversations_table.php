@@ -19,8 +19,10 @@ return new class extends Migration
             $table->foreign('from_user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
             $table->unsignedBigInteger('business_account_id');
             $table->foreign('business_account_id')->references('business_account_id')->on('business_accounts')->onUpdate('cascade')->onDelete('cascade');
+            $table->string('most_recent_message')->nullable();
             $table->string('blocked')->nullable();
-            $table->string("online_status")->nullable();
+            $table->string('holding_conversation_id');
+            $table->string("read")->nullable();
             $table->string("last_seen")->nullable();
             $table->timestamps();
         });

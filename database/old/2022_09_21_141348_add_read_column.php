@@ -14,9 +14,11 @@ return new class extends Migration
     public function up()
     {
         //
-        Schema::table('vocations', function (Blueprint $table) {
-            $table->string('vocation_image')->after('vocations')->nullable();
-        });
+        Schema::table('conversations', function (Blueprint $table) {
+        
+            
+            $table->renameColumn('online_status', 'read')->nullable();
+          });
     }
 
     /**
@@ -27,9 +29,9 @@ return new class extends Migration
     public function down()
     {
         //
-        Schema::table('vocations', function (Blueprint $table) {
-            $table->dropColumn(array('vocation_image'));
-
+        Schema::table('conversations', function (Blueprint $table) {
+           
+           $table->dropColumn('read');
          });
     }
 };

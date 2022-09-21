@@ -13,11 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('chats', function (Blueprint $table) {
+        Schema::table('favourites', function (Blueprint $table) {
             //
            
-            $table->string('IsMe')->nullable();
-             
+        
         });
     }
 
@@ -28,9 +27,12 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('chats', function (Blueprint $table) {
+        Schema::table('favourites', function (Blueprint $table) {
             //
-            $table->dropColumn('IsMe')->nullable();
+          
+          $table->dropColumn(array('deleted_status'));
+
+         
         });
     }
 };

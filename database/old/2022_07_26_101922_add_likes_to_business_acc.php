@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('business_accounts', function (Blueprint $table) {
-              $table->unsignedBigInteger('likes')->after('rating')->nullable();
+             
           //  $table->renameColumn('business_category', 'vocation_id')->nullable();
         });
     }

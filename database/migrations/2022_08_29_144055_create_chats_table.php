@@ -21,6 +21,8 @@ return new class extends Migration
             $table->foreign('to_user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
             $table->text('message');
             $table->string('deleted_at');
+            $table->string('read')->nullable();
+            $table->string('IsMe')->nullable();
             $table->timestamps();
         });
     }

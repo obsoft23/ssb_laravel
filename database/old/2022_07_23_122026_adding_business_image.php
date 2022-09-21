@@ -14,10 +14,11 @@ return new class extends Migration
     public function up()
     {
         //
-        Schema::table('conversations', function (Blueprint $table) {
-            //
-            $table->string('holding_conversation_id');
-        });
+        Schema::table('business_accounts', function (Blueprint $table) {
+        
+           
+            $table->renameColumn('vocation_id', 'vocation_id')->nullable();
+          });
     }
 
     /**
@@ -28,9 +29,12 @@ return new class extends Migration
     public function down()
     {
         //
-        Schema::table('conversations', function (Blueprint $table) {
-            //
-            $table->dropColumn('holding_conversation_id');
-        });
+        Schema::table('business_accounts', function (Blueprint $table) {
+           
+            $table->dropColumn(array('acc_main_image'));
+            $table->dropColumn(array('vocation_id'));
+           
+           
+         });
     }
 };

@@ -13,10 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('favourites', function (Blueprint $table) {
+        //
+        Schema::table('conversations', function (Blueprint $table) {
             //
-            $table->unsignedBigInteger("deleted_status")->after('business_id')->nullable();
-        
+          
         });
     }
 
@@ -27,12 +27,10 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('favourites', function (Blueprint $table) {
+        //
+        Schema::table('conversations', function (Blueprint $table) {
             //
-          
-          $table->dropColumn(array('deleted_status'));
-
-         
+            $table->dropColumn('holding_conversation_id');
         });
     }
 };

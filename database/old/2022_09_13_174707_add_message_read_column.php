@@ -13,12 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('likes', function (Blueprint $table) {
+        //
+        Schema::table('chats', function (Blueprint $table) {
             //
-    
-            $table->unsignedBigInteger("deleted_status")->after('user_id')->nullable();
-
-
+           
+          
+             
         });
     }
 
@@ -29,12 +29,10 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('likes', function (Blueprint $table) {
+        //
+        Schema::table('chats', function (Blueprint $table) {
             //
-           
-            $table->dropColumn(array('deleted_status'));
-
-
+            $table->dropColumn('read');
         });
     }
 };
