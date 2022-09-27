@@ -12,7 +12,7 @@ class Conversation extends Model
   protected $guarded = [];
 
   protected $casts = [
-        
+    'read' => "int",
     'created_at' => 'datetime:H:i',
     
 ];

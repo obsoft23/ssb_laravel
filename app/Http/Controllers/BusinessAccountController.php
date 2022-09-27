@@ -438,7 +438,8 @@ class BusinessAccountController extends Controller
             "town" => 'required|string',
             "sub_category"=> 'required|string',
             "lat"  => 'required',
-            "long" => 'required'
+            "long" => 'required',
+            "order_index" => 'required|int'
             
         ];
 
@@ -452,27 +453,45 @@ class BusinessAccountController extends Controller
             exit();
         }
        
-
-        $business_profiles = BusinessAccount::select(['*'])
-        ->when($request->long and $request->lat, function ($query) use ($request) {
-            $query->addSelect(DB::raw("ST_Distance_Sphere( POINT(business_accounts.longtitude, business_accounts.latitude),
-                    POINT('$request->long', '$request->lat') 
-                ) * .000621371192 as distance" ) )
-                ->orderBy('distance');
-        })
-        ->where('business_sub_category', '=', $request->sub_category)->where("city_or_town", '=', $request->town)->get();
-      
-      //  $category = $request->sub_category;
-       // $business_profiles = BusinessAccount::where('business_sub_category', '=', $request->sub_category)->where("city_or_town", '=', $request->town)->get();
-            
-        if($business_profiles->count() > 0){
-            return response()->json($business_profiles,200);
-            exit();
-        } else{
-            return response()->json($business_profiles, 400);
-        }
+        if($request->order_index == 1){
+            $business_profiles = BusinessAccount::select(['*'])
+            ->when($request->long and $request->lat, function ($query) use ($request) {
+                $query->addSelect(DB::raw("ST_Distance_Sphere( POINT(business_accounts.longtitude, business_accounts.latitude),
+                        POINT('$request->long', '$request->lat') 
+                    ) * .000621371192 as distance" ) )
+                    ->orderBy('distance');
+            })
+            ->where('business_sub_category', '=', $request->sub_category)->where("city_or_town", 'like', '%'.$request->town.'%')->get();
+          
        
-        exit();
+            if($business_profiles->count() > 0){
+                return response()->json($business_profiles,200);
+                exit();
+            } else{
+                return response()->json($business_profiles, 400);
+            }
+           
+            exit();
+        } else {
+            $business_profiles = BusinessAccount::select(['*'])
+            ->when($request->long and $request->lat, function ($query) use ($request) {
+                $query->addSelect(DB::raw("ST_Distance_Sphere( POINT(business_accounts.longtitude, business_accounts.latitude),
+                        POINT('$request->long', '$request->lat') 
+                    ) * .000621371192 as distance" ) )
+                    ->orderBy('likes', 'desc');
+            })
+            ->where('business_sub_category', '=', $request->sub_category)->where("city_or_town", 'like', '%'.$request->town.'%')->get();
+          
+                
+            if($business_profiles->count() > 0){
+                return response()->json($business_profiles,200);
+                exit();
+            } else{
+                return response()->json($business_profiles, 400);
+            }
+        }
+
+       
 
     }
 

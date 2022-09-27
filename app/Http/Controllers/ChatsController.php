@@ -59,17 +59,15 @@ class ChatsController extends Controller
         if($validator->fails()) 
             {
             return response()->json($validator->errors(), 400);
-        // return $validator->errors();->where("deleted_status", 0)
             exit();
         }
 
-        $find  = chats::where("to_user_id", $request->to_user_id)
-              ->having('from_user_id',"=" ,$request->from_user_id)->Orwhere("to_user_id" , '=', $request->from_user_id)->having('from_user_id', "=" ,$request->to_user_id)->get();
+       /* $find  = chats::where("to_user_id", $request->to_user_id)
+              ->having('from_user_id',"=" ,$request->from_user_id)->Orwhere("to_user_id" , '=', $request->from_user_id)->having('from_user_id', "=" ,$request->to_user_id)->get();  conversations`.`from_user_id`*/
       
-      
-           // $find = chats::between([$request->from_user_id, $request->to_user_id]);
-    
-            if($find->count() > 0){
+          $find = DB::select( DB::raw("SELECT * FROM chats WHERE `chats`.`from_user_id` = '$request->from_user_id' AND `chats`.`to_user_id` = '$request->to_user_id' OR `chats`.`to_user_id` = '$request->from_user_id' AND `chats`.`from_user_id` = '$request->to_user_id' ORDER BY  created_at ASC "));
+         
+            if($find){
                 return response()->json($find,200);
                 exit;
             }else {
