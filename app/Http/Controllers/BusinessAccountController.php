@@ -287,27 +287,7 @@ class BusinessAccountController extends Controller
                 $file->storeAs('public/business_images/', $name,   ['disk' => 'local'] );
                 return response()->json( ["sucessfully_updated"  => $success, 'acc_image' => $update_acc_image_name ] );
                 exit();  
-              }/* else {
-               // return response()->json("Fef");
-
-               $success = BusinessAccountImage::where('business_id', '=', $request->business_id)->where( "image_order_index", '=', $request->index)->update(array('image_name' => $name));
-               if($success == 0) {
-                $success =    BusinessAccountImage::create(
-
-                    [
-                        "business_id" => $request->business_id,
-                        "image_name" => $name,
-                        "image_order_index" => $request->index,
-                
-                    ],
-                );
-               }
-                $file->storeAs('public/business_images/', $name,   ['disk' => 'local'] );
-                return response()->json( ["sucessfully_updated"  => $success ] );
-                exit();
-               
-              }*/
-             // return response()->json($images);
+              }
                  
            } else {
             $success =    BusinessAccountImage::create(

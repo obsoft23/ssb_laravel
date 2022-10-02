@@ -8,6 +8,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Imports\UserImport;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Models\Notification;
+use Illuminate\Support\Facades\DB;
+use App\Models\BusinessAccount;
+
+
 
 
 class UserController extends Controller
@@ -23,7 +28,7 @@ class UserController extends Controller
 
         $rules = [
             'email' => 'required|email',
-            'password' => 'required|String|min:4'
+            'password' => 'required|String'
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -124,12 +129,11 @@ class UserController extends Controller
     public function update(Request $request)
     {
         $rules = [
-        'name' => 'string',
-        'email' => 'email',
+        'name' => 'required|string',
         'bio' => 'required|string',
         'fullname' => 'required|string',
         'phone' => 'required|numeric',
-        'id' => 'required|int'
+       
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -137,12 +141,11 @@ class UserController extends Controller
         if($validator->fails()) 
         {
             return response()->json($validator->errors(), 400);
-           // return $validator->errors();
             exit();
         }
        
         $user = User::find(auth()->user()->id);
-        $success = $user->update(['name' => $request->name,  'email' => $request->email, 'bio' => $request->bio, 'fullname' => $request->fullname, 'phone' => $request->phone ]);
+        $success = $user->update(['name' => $request->name,  'bio' => $request->bio, 'fullname' => $request->fullname, 'phone' => $request->phone ]);
 
         return response()->json(['success' => $success]);
         
@@ -191,6 +194,13 @@ class UserController extends Controller
             $token = $user->createToken("personal access token")->plainTextToken;
     
             $response = ['user' => $user, 'token' => $token, 'status' => 200];
+
+            $create_notification = Notification::create([
+                "notifications" => "Welcome to Vivagram - New User Welcome Notification ",
+                "user_id" => $user->id,
+                "read" => "0",
+
+            ]);
     
             return response()->json($response);
         } else {
@@ -246,6 +256,28 @@ class UserController extends Controller
        // set_time_limit(600);
         $success = Excel::import(new UserImport, $request->file('users') );
         return response()->json($success);
+    }
+
+    public function getUserFewDetails($id){
+
+        $find =  BusinessAccount::where('user_id', '=', $id)->count();
+        if($find > 0){
+            $list =  DB::table('business_accounts')
+            ->select(   "business_accounts.business_account_id","business_accounts.business_name", "users.id", "users.email", "users.image", "business_accounts.acc_main_image", "users.name", "users.fullname", "users.has_professional_acc")
+            ->join('users', 'business_accounts.user_id','=','users.id')
+            ->where(['business_accounts.user_id' => $id])
+            ->get();
+    
+           
+            return response()->json($list);
+        } else {
+           $user = User::find($id);
+
+            return response()->json([$user]);
+        }
+
+
+        
     }
 }
 //if($user && Hash::check($request->password, $user->password) 

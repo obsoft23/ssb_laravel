@@ -21,9 +21,9 @@ class NotificationController extends Controller
 
         $list =  DB::table('notifications')
         ->select('*')
-        ->join('business_accounts','notifications.business_account_id','=','business_accounts.business_account_id')
-        //->join('users','notifications.business_account_id','=','users.business_id')
         ->where(['notifications.user_id' => auth()->user()->id,])
+        //->join('business_accounts','notifications.business_account_id','=','business_accounts.business_account_id')
+        //->join('users','notifications.business_account_id','=','users.business_id')
         ->orderBy("notifications.updated_at", "desc")
         ->get();
 

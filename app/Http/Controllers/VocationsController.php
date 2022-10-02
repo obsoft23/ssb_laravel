@@ -19,7 +19,7 @@ class VocationsController extends Controller
     }
 
     public function getVocations(Request $request){
-        $vocations = Vocations::orderBy('created_at', 'DESC')->get();
+        $vocations = Vocations::where('is_available', 1)->orderBy('created_at', 'DESC')->get();
         if($vocations){
             return response()->json($vocations, 200);
         } else {

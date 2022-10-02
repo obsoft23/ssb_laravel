@@ -17,7 +17,9 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('from_user_id');
             $table->foreign('from_user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
-            $table->unsignedBigInteger('business_account_id');
+            $table->unsignedBigInteger('to_user_id');
+            $table->foreign('to_user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
+            $table->unsignedBigInteger('business_account_id')->nullable();
             $table->foreign('business_account_id')->references('business_account_id')->on('business_accounts')->onUpdate('cascade')->onDelete('cascade');
             $table->string('most_recent_message')->nullable();
             $table->string('blocked')->nullable();
