@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostsAPiController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserReportsController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\VocationsController;
 use App\Http\Controllers\RatingController;
@@ -15,6 +16,10 @@ use App\Http\Controllers\ChatsController;
 use App\Http\Controllers\ConversationController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\CommonController;
+use App\Mail\WelcomeMail;
+use App\Models\User;
+use Illuminate\Support\Facades\Mail;
+ 
 
 /*
 |--------------------------------------------------------------------------
@@ -86,7 +91,12 @@ Route::group(["middleware" => "auth:sanctum"], function(){
     Route::post('/notifications/fetch/', [NotificationController::class, 'index']);
     Route::post('/notifications/create/', [NotificationController::class, 'create']);
 
-   
+
+
+
+    /* */
+    Route::post('/reports/create/', [UserReportsController::class, 'create']);
+
   
 
 });
@@ -104,18 +114,14 @@ Route::get('/vocations/fetch', [VocationsController::class, 'getVocations']);
 
 Route::get('/business/fetch/review/{id}', [ReviewController::class, 'show']);
 
+//
+Route::get('/welcome', function(){
+   // return(new WelcomeMail(User::find(5)))->render();
+   Mail::to(User::find(0))->send(new WelcomeMail(User::find(0)));
+   return null;
+});
 
 Route::post('/upload', [CategoryController::class, 'index']);
 Route::post('/import', [VocationsController::class, 'vocations']);
 Route::post('/import/users', [UserController::class, 'upload_user']);
 Route::post('/import/business_acc', [BusinessAccountController::class, 'upload_business_acc']);
-
-
-/*Route::get('/posts', [PostsAPiController::class, 'index']);
- // Route::post('/business/fetch/favs/list', [FavouriteController::class, 'showChats']);
-Route::post('/posts', [PostsAPiController::class, 'store']);
- Route::post('/conversations/list', [ConversationController::class, 'show']);
-Route::put('/posts/{post}', [PostsAPiController::class, 'update']);
-Route::delete('/posts/{post}', [PostsAPiController::class, 'destroy']);*/
-
-

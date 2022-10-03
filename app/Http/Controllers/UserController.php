@@ -11,6 +11,8 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Models\Notification;
 use Illuminate\Support\Facades\DB;
 use App\Models\BusinessAccount;
+use App\Mail\WelcomeMail;
+use Illuminate\Support\Facades\Mail;
 
 
 
@@ -201,8 +203,11 @@ class UserController extends Controller
                 "read" => "0",
 
             ]);
+
+            Mail::to($user)->send(new WelcomeMail($user));
     
             return response()->json($response);
+          
         } else {
             $response = ['user' => "email already exits not authorized", 'status' => 500];
             return response()->json($response);
