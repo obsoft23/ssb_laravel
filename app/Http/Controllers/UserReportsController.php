@@ -34,6 +34,7 @@ class UserReportsController extends Controller
         $rules = [
             'topic' => 'required|string',
             'description' => 'required|string',
+            'reported_business_acc' => 'required|int',
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -52,13 +53,14 @@ class UserReportsController extends Controller
             "email" => auth()->user()->email,
             "query_topic" => $request->topic,
             "query_description" => $request->description,
+           
         ];
 
         $success = UserReports::create([
             "query_topic" => $request->topic,
             "query_description" => $request->description,
             "user_id" => auth()->user()->id,
-            "business_account_id" => auth()->user()->business_id
+            "business_account_id" =>  $request->reported_business_acc
         ]);
 
         $email = Mail::to($user)->send(new SupportMail($data));

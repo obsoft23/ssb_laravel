@@ -50,22 +50,37 @@ class ConversationController extends Controller
                  [
                 "from_user_id"=> auth()->user()->id,
                 "to_user_id" => $request->to_user_id,
-                "business_account_id"=>$request->business_id,
-                "blocked" => 0,
-                "read" => 0,
-                "holding_conversation_id" => Str::random(30),
-            ]);
-        
-           $success = Conversation::updateOrCreate(
-                [   'from_user_id'   =>   $request->to_user_id , "to_user_id" =>$request->from_user_id, ],  
-                 [
-                "from_user_id"=>  $request->to_user_id,
-                "to_user_id" => auth()->user()->id,
                 "business_account_id"=> $request->business_id,
                 "blocked" => 0,
                 "read" => 0,
                 "holding_conversation_id" => Str::random(30),
             ]);
+        
+            if(auth()->user()->business_id != null){
+                $success = Conversation::updateOrCreate(
+                    [   'from_user_id'   =>   $request->to_user_id , "to_user_id" =>$request->from_user_id, ],  
+                     [
+                    "from_user_id"=>  $request->to_user_id,
+                    "to_user_id" => auth()->user()->id,
+                    "business_account_id"=> auth()->user()->business_id,
+                    "blocked" => 0,
+                    "read" => 0,
+                    "holding_conversation_id" => Str::random(30),
+                ]);
+            } else {
+                $success = Conversation::updateOrCreate(
+                    [   'from_user_id'   =>   $request->to_user_id , "to_user_id" =>$request->from_user_id, ],  
+                     [
+                    "from_user_id"=>  $request->to_user_id,
+                    "to_user_id" => auth()->user()->id,
+                    "business_account_id"=>  $request->business_id,
+                    "blocked" => 0,
+                    "read" => 0,
+                    "holding_conversation_id" => Str::random(30),
+                ]);
+            }
+
+           
             if($success){
                 return response()->json($success, 200);
             } else{
@@ -161,9 +176,9 @@ class ConversationController extends Controller
         $list =  DB::table('conversations')
         ->select(  "conversations.from_user_id", "conversations.to_user_id", "conversations.holding_conversation_id", "conversations.read", "conversations.blocked", "conversations.most_recent_message", "conversations.business_account_id","business_accounts.business_name", "users.id", "users.email", "users.image", "business_accounts.acc_main_image", "users.name", "users.fullname", "users.has_professional_acc",  "conversations.created_at", "conversations.updated_at")
         ->join('business_accounts','conversations.business_account_id','=','business_accounts.business_account_id')
-        ->join('users', 'users.id','=','conversations.to_user_id')
-        ->where(['conversations.from_user_id' => $from_user_id])
-        ->orWhere(['conversations.to_user_id' => $from_user_id])
+        ->leftjoin('users', 'users.id','=','conversations.to_user_id')
+        ->where(['conversations.to_user_id' => $from_user_id])
+        ->OrWhere(['conversations.from_user_id' => $from_user_id])
         ->orderBy("conversations.updated_at", "desc")
         ->get();
 
