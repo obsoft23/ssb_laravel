@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::table('vocations', function (Blueprint $table) {
             //
-            $table->unsignedBigInteger('is_available')->nullable();
+            
         });
     }
 

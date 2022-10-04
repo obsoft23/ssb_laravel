@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreign('category_id')->references('id')->on('categories')->onUpdate('cascade')->onDelete('cascade');
             $table->string('vocations'); 
             $table->string('vocation_image');
+            $table->unsignedBigInteger('is_available')->nullable();
             $table->timestamps();
         });
     }

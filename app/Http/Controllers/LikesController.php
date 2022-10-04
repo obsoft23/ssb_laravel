@@ -57,12 +57,34 @@ class LikesController extends Controller
             
                 $total_likes =  Likes::where("business_id" , '=', $request->business_id)->count();
                 $fetch_business_acc = BusinessAccount::where('business_account_id', '=', $request->business_id)->update(["likes" => $total_likes]);
+                $create_notification = Notification::updateOrCreate([
+                    [
+                        "notifications" => "New Like -  business account just got a like",
+                        "user_id" => auth()->user()->id,
+                    ],
+                     "notifications" => "New Like -  business account just got a like",
+                     "user_id" => auth()->user()->id,
+                     "business_account_id" => $request->business_id,
+                     "read" => "0",
+                 ]);
+             
                 return response()->json([ "update_like_column_in_business_acc" => $fetch_business_acc]);
             } else {
 
                 $delete_like =  Likes::where("business_id" , '=', $request->business_id)->where("user_id", $request->user_id)->delete();
                 $total_likes =  Likes::where("business_id" , '=', $request->business_id)->count();
                 $fetch_business_acc = BusinessAccount::where('business_account_id', '=', $request->business_id)->update(["likes" => $total_likes]);
+
+                $create_notification = Notification::updateOrCreate([
+                    [
+                        "notifications" => "New Like -  business account just got a like",
+                        "user_id" => auth()->user()->id,
+                    ],
+                    "notifications" => "New Like -  business account just got a like",
+                    "user_id" => auth()->user()->id,
+                    "business_account_id" => $request->business_id,
+                    "read" => "0",
+                ]);
              
                 return response()->json([ "update_like_column_in_business_acc" => $fetch_business_acc, "delete_like" => $delete_like]);
             }

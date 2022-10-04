@@ -20,6 +20,10 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
             $table->unsignedBigInteger('business_account_id')->nullable();
             $table->foreign('business_account_id')->references('business_account_id')->on('business_accounts')->onUpdate('cascade')->onDelete('cascade');
+            $table->unsignedBigInteger('to_user_id')->nullable();;
+            $table->foreign('to_user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
+            $table->unsignedBigInteger('to_business_account_id')->nullable();
+            $table->foreign('to_business_account_id')->references('business_account_id')->on('business_accounts')->onUpdate('cascade')->onDelete('cascade');
             $table->string("read");
             $table->timestamps();
         });

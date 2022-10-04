@@ -56,6 +56,14 @@ class ReviewController extends Controller
            
            $success= Review::create($data);
            if($success){
+            $create_notification = Notification::updateOrCreate([
+               // [ "notifications" => "Welcome to Vivagram - New User Welcome Notification ",],
+                "notifications" => "New Review added -  $request->review",
+                "user_id" => auth()->user()->id,
+                "business_account_id" => $request->business_id,
+                "read" => "0",
+            ]);
+        
             return response()->json(true,200);
            } else{
             return response()->json(false,400);
@@ -90,6 +98,7 @@ class ReviewController extends Controller
         ->where(['business_account_id' => $id,])
      
         ->get();*/
+        $id = (int) $id;
         $user =  DB::table('users')
         ->select('users.id','users.name','users.image')
         ->join('reviews','reviewer_id','=','users.id')
@@ -97,10 +106,24 @@ class ReviewController extends Controller
         ->get();
 
        $success = Review::where('business_account_id', '=', $id)->get();
-
+      
        return response()->json(["reviews" => $success, "user" => $user]);
 
 
+    }
+
+    public function show_some($id){
+         $id = (int) $id;
+         $user =  DB::table('users')
+        ->select('users.id','users.name','users.image')
+        ->join('reviews','reviewer_id','=','users.id')
+        ->where(['business_account_id' => $id,])
+        ->get();
+
+
+       $success = Review::where('business_account_id', '=', $id)->get();
+
+       return response()->json(["reviews" => $success, "user" => $user]);
     }
 
     /**

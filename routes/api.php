@@ -71,6 +71,9 @@ Route::group(["middleware" => "auth:sanctum"], function(){
    
     Route::post('/business/confirm/review', [ReviewController::class, 'create']);
     Route::post('/business/confirm/review/delete', [ReviewController::class, 'destroy']);
+    Route::get('/business/fetch/review/{id}', [ReviewController::class, 'show']);
+    Route::get('/business/fetch/some_review/{id}', [ReviewController::class, 'show_some']);
+
 
     /*saved favourites*/
     Route::post('/business/add/favourite', [FavouriteController::class, 'create']);
@@ -112,7 +115,6 @@ Route::get('/business-profile/fetch/{id}', [BusinessAccountController::class, 's
 Route::get('/vocations/fetch', [VocationsController::class, 'getVocations']);
 //Route::get('/vocations/common', [CommonController::class, 'index']);
 
-Route::get('/business/fetch/review/{id}', [ReviewController::class, 'show']);
 
 //
 Route::get('/welcome', function(){

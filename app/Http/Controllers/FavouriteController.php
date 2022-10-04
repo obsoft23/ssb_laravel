@@ -62,6 +62,17 @@ class FavouriteController extends Controller
        //  return response()->json($find == null ? "nukk" : "not null");
        
         if($find == null){
+            $create_notification = Notification::updateOrCreate([
+                [
+                    "notifications" => "Favourites -  a user just saved your business as a favourite",
+                    "user_id" => auth()->user()->id,
+                ],
+                "notifications" => "Favourites -  a user just saved your business as a favourite",
+                "user_id" => auth()->user()->id,
+                "business_account_id" => $request->business_id,
+                "read" => "0",
+            ]);
+
             $success = Favourite::updateOrCreate($data);
             return response()->json($success);
            
