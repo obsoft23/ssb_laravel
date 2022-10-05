@@ -85,16 +85,12 @@ class ConversationController extends Controller
            
             if($success){
 
-                $create_notification = Notification::updateOrCreate([
-                    [
-                        "notifications" => "Conversation -  conversation iniated with you",
-                        "user_id" => auth()->user()->id,
-                    ],
+               /* $create_notification = Notification::updateOrCreate([
                     "notifications" => "Conversation -  new conversation iniated with you.",
                     "user_id" => auth()->user()->id,
                     "business_account_id" => $request->business_id,
                     "read" => "0",
-                ]);
+                ]);*/
 
                 return response()->json($success, 200);
             } else{

@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\User;
 use App\Models\Favourite;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -62,16 +62,17 @@ class FavouriteController extends Controller
        //  return response()->json($find == null ? "nukk" : "not null");
        
         if($find == null){
-            $create_notification = Notification::updateOrCreate([
-                [
-                    "notifications" => "Favourites -  a user just saved your business as a favourite",
-                    "user_id" => auth()->user()->id,
-                ],
-                "notifications" => "Favourites -  a user just saved your business as a favourite",
-                "user_id" => auth()->user()->id,
-                "business_account_id" => $request->business_id,
-                "read" => "0",
-            ]);
+            /*$to_user_id =  User::where('business_id', '=', $request->business_id)->get([
+                "id"
+               ]);
+ $create_notification = Notification::updateOrCreate([
+                  
+                    "notifications" => "New Like -  business account just got a like",
+                    "user_id" =>  $to_user_id,
+                    "to_user_id" => auth()->user()->id,
+                    "business_account_id" => $request->business_id,
+                    "read" => "0",
+                ]);*/
 
             $success = Favourite::updateOrCreate($data);
             return response()->json($success);

@@ -56,13 +56,13 @@ class ReviewController extends Controller
            
            $success= Review::create($data);
            if($success){
-            $create_notification = Notification::updateOrCreate([
+           /* $create_notification = Notification::updateOrCreate([
                // [ "notifications" => "Welcome to Vivagram - New User Welcome Notification ",],
                 "notifications" => "New Review added -  $request->review",
                 "user_id" => auth()->user()->id,
                 "business_account_id" => $request->business_id,
                 "read" => "0",
-            ]);
+            ]);*/
         
             return response()->json(true,200);
            } else{

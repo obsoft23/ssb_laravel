@@ -197,13 +197,13 @@ class UserController extends Controller
     
             $response = ['user' => $user, 'token' => $token, 'status' => 200];
 
-            $create_notification = Notification::updateOrCreate([
-                [ "notifications" => "Welcome to Vivagram - New User Welcome Notification ",],
+            /*$create_notification = Notification::updateOrCreate([
+               
                 "notifications" => "Welcome to Vivagram - New User Welcome Notification ",
                 "user_id" => $user->id,
                 "read" => "0",
 
-            ]);
+            ]);*/
 
             Mail::to($user)->send(new WelcomeMail($user));
     

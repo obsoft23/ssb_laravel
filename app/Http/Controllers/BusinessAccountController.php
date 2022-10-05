@@ -17,6 +17,7 @@ use App\Models\Notification;
 
 
 
+
 class BusinessAccountController extends Controller
 {
     
@@ -104,16 +105,12 @@ class BusinessAccountController extends Controller
                 $update_users_business_id_column = $find_user->update(["business_id" => $business_user->id]);
                 $response = [ 'business_user_id' => $business_user->id, "has_professional_acc" => $update_professional_status, "account_status"=> "Account succesffuly created", "update_users_business_id_column" => $update_users_business_id_column ];
 
-                $create_notification = Notification::updateOrCreate([
-                    [ 
-                      "notifications" => "Welcome $request->business_name - business account  successfully created",
-                      "user_id" => auth()->user()->id,
-                    ],
+              /*  $create_notification = Notification::updateOrCreate([
                     "notifications" => "Welcome $request->business_name - business account  successfully created",
                     "user_id" => auth()->user()->id,
-                    "business_account_id" => $request->business_id,
+                    "business_account_id" => $business_user->id,
                     "read" => "0",
-                ]);
+                ]);*/
 
                 return response()->json($response, 200);
                 exit();
@@ -340,7 +337,7 @@ class BusinessAccountController extends Controller
 
         $success = BusinessAccount::where('business_account_id', '=', auth()->user()->business_id)->update(array('active_days' => $request->active_days,));
 
-        $create_notification = Notification::updateOrCreate([
+        /*$create_notification = Notification::updateOrCreate([
             [ 
               "notifications" => "Business account - your active days was recently updated",
               "user_id" => auth()->user()->id,
@@ -349,7 +346,7 @@ class BusinessAccountController extends Controller
             "user_id" => auth()->user()->id,
             "business_account_id" => auth()->user()->business_id,
             "read" => "0",
-        ]);
+        ]);*/
 
         return response()->json(["success" => $success]);
 
@@ -391,16 +388,13 @@ class BusinessAccountController extends Controller
        
         $success = BusinessAccount::where('business_account_id', '=', auth()->user()->business_id)->update($data);
 
-        $create_notification = Notification::updateOrCreate([
-            [ 
-              "notifications" => "Business account - your address was recently updated",
-              "user_id" => auth()->user()->id,
-            ],
+        /*$create_notification = Notification::updateOrCreate([
+          
             "notifications" => "Business account - your address was recently updated",
             "user_id" => auth()->user()->id,
             "business_account_id" => auth()->user()->business_id,
             "read" => "0",
-        ]);
+        ]);*/
 
         return response()->json(["success" => $success]);
     }
@@ -436,16 +430,13 @@ class BusinessAccountController extends Controller
 
         $success = BusinessAccount::where('business_account_id', '=', auth()->user()->business_id)->update($data);
 
-        $create_notification = Notification::updateOrCreate([
-            [ 
-              "notifications" => "Business account - your personal details was recently updated",
-              "user_id" => auth()->user()->id,
-            ],
+       /* $create_notification = Notification::updateOrCreate([
+          
             "notifications" => "Business account - your personal details was recently updated",
             "user_id" => auth()->user()->id,
             "business_account_id" => auth()->user()->business_id,
             "read" => "0",
-        ]);
+        ]);*/
 
         return response()->json(["success" => $success]);
 
@@ -550,7 +541,7 @@ class BusinessAccountController extends Controller
 
         $success = BusinessAccount::where('business_account_id', '=', auth()->user()->business_id)->update($data);
 
-        $create_notification = Notification::updateOrCreate([
+        /*$create_notification = Notification::updateOrCreate([
             [ 
               "notifications" => "Business account - your business hours was recently updated",
               "user_id" => auth()->user()->id,
@@ -559,7 +550,7 @@ class BusinessAccountController extends Controller
             "user_id" => auth()->user()->id,
             "business_account_id" => auth()->user()->business_id,
             "read" => "0",
-        ]);
+        ]);*/
 
         return response()->json(["success" => $success]);
 

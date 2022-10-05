@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\BusinessAccount;
 use App\Models\Notification;
+use App\Models\User;
+
 
 
 
@@ -51,22 +53,23 @@ class LikesController extends Controller
            ];
 
            $find =  Likes::where("business_id" , '=', $request->business_id)->where("user_id", $request->user_id)->count();
+           $to_user_id =  User::where('business_id', '=', $request->business_id)->get([
+            "id"
+           ]);
           
             if($find == 0){
                 $like = Likes::updateOrCreate($data);
             
                 $total_likes =  Likes::where("business_id" , '=', $request->business_id)->count();
                 $fetch_business_acc = BusinessAccount::where('business_account_id', '=', $request->business_id)->update(["likes" => $total_likes]);
-                $create_notification = Notification::updateOrCreate([
-                    [
-                        "notifications" => "New Like -  business account just got a like",
-                        "user_id" => auth()->user()->id,
-                    ],
-                     "notifications" => "New Like -  business account just got a like",
-                     "user_id" => auth()->user()->id,
-                     "business_account_id" => $request->business_id,
-                     "read" => "0",
-                 ]);
+               /* $create_notification = Notification::updateOrCreate([
+                  
+                    "notifications" => "New Like -  business account just got a like",
+                    "user_id" =>  $to_user_id,
+                    "to_user_id" => auth()->user()->id,
+                    "business_account_id" => $request->business_id,
+                    "read" => "0",
+                ]);*/
              
                 return response()->json([ "update_like_column_in_business_acc" => $fetch_business_acc]);
             } else {
@@ -75,24 +78,22 @@ class LikesController extends Controller
                 $total_likes =  Likes::where("business_id" , '=', $request->business_id)->count();
                 $fetch_business_acc = BusinessAccount::where('business_account_id', '=', $request->business_id)->update(["likes" => $total_likes]);
 
-                $create_notification = Notification::updateOrCreate([
-                    [
-                        "notifications" => "New Like -  business account just got a like",
-                        "user_id" => auth()->user()->id,
-                    ],
+              
+
+            
+               /* $create_notification = Notification::updateOrCreate([
+                  
                     "notifications" => "New Like -  business account just got a like",
-                    "user_id" => auth()->user()->id,
+                    "user_id" =>  $to_user_id,
+                    "to_user_id" => auth()->user()->id,
                     "business_account_id" => $request->business_id,
                     "read" => "0",
-                ]);
+                ]);*/
              
                 return response()->json([ "update_like_column_in_business_acc" => $fetch_business_acc, "delete_like" => $delete_like]);
             }
                 
-         
-            
-    
-          //  return response()->json(["updated" => $like->user_id]);
+        
     }
 
     /**
@@ -179,4 +180,6 @@ class LikesController extends Controller
     {
         //
     }
+
+   
 }
