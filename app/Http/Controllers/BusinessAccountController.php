@@ -48,6 +48,7 @@ class BusinessAccountController extends Controller
         "email"=> 'required|string',
         "phone"=> 'required|string',
         "business_sub_category"=> 'required|string',
+        "house_no" => 'required',
         "full_address"=> 'required|string',
         "postal_code"=> 'required|string',
         "city_or_town"=> 'required|string',
@@ -56,7 +57,8 @@ class BusinessAccountController extends Controller
         "latitude"=> 'required',
         "longtitude"=> 'required',
         "active_days"=> 'required',
-        ];
+       
+         ];
 
         $validator = Validator::make($request->all(), $rules);
 
