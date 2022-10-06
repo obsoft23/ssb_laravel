@@ -156,6 +156,30 @@ class ConversationController extends Controller
         //
     }
 
+    public function remove_conversation(Request $request){
+        $rules = [
+            'id' => 'required|int',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+        if($validator->fails()) 
+            {
+            return response()->json($validator->errors(), 400);
+        // return $validator->errors();
+            exit();
+        }
+
+        $user_id  = auth()->user()->id;
+
+        $success = DB::select( DB::raw("DELETE FROM conversations WHERE `conversations`.`from_user_id` = '$request->id' AND `conversations`.`to_user_id` = '$user_id' OR `conversations`.`to_user_id` = '$request->id' AND `conversations`.`from_user_id` = '$user_id'"));
+
+        if($success){
+            return response()->json($success, 200);
+        } else {
+            return response()->json($success, 400);
+        }
+    }
+
     public function chat_list(Request $request){
 
         $rules = [
