@@ -277,5 +277,15 @@ class UserController extends Controller
 
         
     }
+
+
+    public function confirmId(){
+       $business_id = auth()->user()->business_id;
+        if($business_id != null){
+            return response()->json(true);
+        }
+
+        return response()->json(false);
+    }
 }
 //if($user && Hash::check($request->password, $user->password) 
