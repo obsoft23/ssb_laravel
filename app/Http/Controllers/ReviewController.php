@@ -103,6 +103,7 @@ class ReviewController extends Controller
         ->select('users.id','users.name','users.image')
         ->join('reviews','reviewer_id','=','users.id')
         ->where(['business_account_id' => $id,])
+        ->orderBy("created_at", "DESC")
         ->get();
 
        $success = Review::where('business_account_id', '=', $id)->get();
@@ -118,6 +119,7 @@ class ReviewController extends Controller
         ->select('users.id','users.name','users.image')
         ->join('reviews','reviewer_id','=','users.id')
         ->where(['business_account_id' => $id,])
+        ->orderBy("created_at", "DESC")
         ->get();
 
 
