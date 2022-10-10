@@ -127,4 +127,41 @@ class UserReportsController extends Controller
     {
         //
     }
+
+
+    public function category_add(Request $request){
+        $rules = [
+            'category' => 'required|string',
+            'category_description' => 'required|string',
+        
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if($validator->fails()) 
+        {
+            return response()->json($validator->errors(), 400);
+            exit();
+        }
+
+        //
+        $data = [
+            "name" => "Category Request",
+            "email" => "olawale.ologunde@gmail.com",
+            "query_topic" => $request->category,
+            "query_description" => $request->category_description,
+           
+        ];
+
+        $user = User::find(1);
+
+        $email = Mail::to($user)->send(new SupportMail($data));
+        return response()->json($email, 200);
+        if($email){
+            return response()->json($email, 200);
+        } else{
+            return response()->json($email, 400);
+        }
+
+    }
 }

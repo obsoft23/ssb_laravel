@@ -119,6 +119,9 @@ Route::get('/vocations/fetch', [VocationsController::class, 'getVocations']);
 Route::post('/vocations/find', [BusinessAccountController::class, 'getVocations']);
 
 
+/* */
+Route::post('/reports/category_add/', [UserReportsController::class, 'category_add']);
+
 // 
 Route::get('/business/fetch/review/{id}', [ReviewController::class, 'show']);
 Route::get('/business/fetch/some_review/{id}', [ReviewController::class, 'show_some']);
