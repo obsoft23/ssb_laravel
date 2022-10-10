@@ -80,7 +80,7 @@ Route::group(["middleware" => "auth:sanctum"], function(){
     Route::post('/business/add/favourite', [FavouriteController::class, 'create']);
     Route::post('/business/fetch/favourite', [FavouriteController::class, 'show']);
     Route::post('/business/confirm/favourite/status', [FavouriteController::class, 'confirmFav']);
-    Route::post('/vocations/find', [BusinessAccountController::class, 'getVocations']);
+   
 
 
     /* messaging */
@@ -114,7 +114,11 @@ Route::get('/fetch-user-image/{imageURL}', [UserController::class, 'user_profile
 Route::get('/fetch-business-acc-image/{imageURL}', [BusinessAccountController::class, 'business_profile_pictures']);
 Route::get('/business-photos/fetch/{id}', [BusinessAccountController::class, 'fetchBusinessPhotos']);
 Route::get('/business-profile/fetch/{id}', [BusinessAccountController::class, 'show']);
+
+
+/* access business and vocations list */
 Route::get('/vocations/fetch', [VocationsController::class, 'getVocations']);
+Route::post('/vocations/find', [BusinessAccountController::class, 'getVocations']);
 //Route::get('/vocations/common', [CommonController::class, 'index']);
 
 
